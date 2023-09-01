@@ -21,7 +21,6 @@ public class Comment {
     }
     @GetMapping("/{id}")
     public String article(@PathVariable("id") Long id, HttpSession session, Model model){
-
         if (session.getAttribute("user") != null){
             Article article = articleService.getById(id);
             if (article != null) {

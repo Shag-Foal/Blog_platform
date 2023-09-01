@@ -18,7 +18,7 @@ public class ArticleService {
     }
 
     public Article getById(Long id){
-        return articleRepo.getOne(id);
+        return articleRepo.getById(id);
     }
 
 }

@@ -1,17 +1,47 @@
-body, h1, h2, p, ul, li {
+body {
     margin: 0;
+    padding: 0;
+    resize: none;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+.HeaderTitle {
+    text-align: center;
+    padding: 40px;
+    background-color: #3498db;
+    color: white;
+    margin: 0;
+}
+
+.navBar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.unorderedList {
+    list-style: none;
     padding: 0;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f2f2f2;
-    padding: 0;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
+.listItem {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.link:hover {
+    background-color: #3498db;
+    color: white;
 }
 
 header {
@@ -31,19 +61,28 @@ header p {
 
 main {
     padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f2f2f2;
+    padding: 0;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
 }
 
-article {
+.article {
+    width: 100%;
     background-color: white;
-    margin-left: 30px;
-    margin-right: 30px;
-    padding: 20px;
+    padding: 25px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
 
-article h2 {
+.article h2 {
     text-align: center;
     padding: 10px;
     background-color: #3498db;
@@ -51,7 +90,7 @@ article h2 {
     margin-bottom: 20px;
 }
 
-article p {
+.article p {
     color: #333;
     line-height: 1.6;
     margin-bottom: 10px;
@@ -131,6 +170,10 @@ ul.comments-list {
     justify-content: space-between;
     align-items: flex-start;
 }
+.class{
+    display: flex;
+    justify-content: space-between;
+}
 
 .comment-meta {
     font-size: 20px;
@@ -145,6 +188,7 @@ ul.comments-list {
     line-height: 1.6;
     font-size: 18px;
     padding-left: 5px;
+    resize: vertical;
 }
 ul.comments-list {
     margin-top: 0.5%;
@@ -213,8 +257,8 @@ ul.comments-list li {
     text-align: right;
 }
 .button-like{
-    font-size: 25px;
-    padding: 8px 10px;
+    font-size: 15px;
+    padding: 5px 7px;
 }
 .list-item-like{
     display: flex;

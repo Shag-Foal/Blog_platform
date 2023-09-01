@@ -1,0 +1,208 @@
+body {
+    margin: 0;
+    padding: 0;
+    resize: none;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+.HeaderTitle {
+    text-align: center;
+    padding: 40px;
+    background-color: #3498db;
+    color: white;
+    margin: 0;
+}
+
+.navBar {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.unorderedList {
+    list-style: none;
+    padding: 0;
+}
+
+.listItem {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.link:hover {
+    background-color: #3498db;
+    color: white;
+}
+
+.create-article-form {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-article-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.create-article-form input[type="text"],
+.create-article-form input[type="file"] {
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    padding-right: 0px;
+    padding-left: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.create-article-form button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.create-article-form button[type="submit"]:hover {
+    background-color: #258cd1;
+}
+
+.create-article-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.create-article-form input[type="file"]:hover {
+    border-color: #3498db;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-self: center;
+}
+
+.file-input-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+#image-preview-container {
+  max-width: 100%; 
+  max-height: 250px; 
+  overflow: hidden; 
+}
+.file-input-button {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.file-input-wrapper:hover .file-input-button {
+    background-color: #258cd1;
+}
+.demo-dfree {
+    position: relative;
+    width: 101%;
+    color: #626262;
+    font-size: 14px;
+    margin-bottom:25px;
+  }
+  .demo-dfree *[contentEditable="true"]:hover {
+    outline: 1px solid #1976D2;
+  }
+  .demo-dfree h1 {
+    color: #1976D2;
+    font-size: 2em;
+  }
+  .demo-dfree h2 {
+    color: #1976D2;
+    font-size: 2em;
+  }
+  .demo-dfree h3 {
+    font-size: 1.5em;
+    color: #403f42;
+    color: inherit;
+  }
+  .demo-dfree h2,
+  .demo-dfree h3 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    line-height: 40px;
+  }
+  .demo-dfree ul,
+  .demo-dfree ol {
+    padding-left: 20px;
+  }
+  .demo-dfree ul {
+    list-style: disc;
+  }
+  .demo-dfree ol {
+    list-style: decimal;
+  }
+  .demo-dfree a {
+    text-decoration: underline;
+  }
+  .demo-dfree textarea {
+    display: none;
+  }
+  .demo-dfree .dfree-header {
+    font-size: 2.4em;
+    text-align: center;
+    margin: 10px;
+  }
+  .demo-dfree .dfree-body {
+    padding-bottom:5px; 
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .demo-dfree .dfree-body p {
+    margin-bottom: 10px;
+  }
+  .demo-dfree .dfree-body blockquote {
+    margin-left: 30px;
+    padding-left: 10px;
+    margin-right: 40px;
+    font-style: italic;
+    border-left: 1px solid #696969;
+  }
+  .demo-dfree .dfree-body a {
+    text-decoration: underline;
+  }
+  .demo-dfree .dfree-body td,
+  .demo-dfree .dfree-body tr {
+    border: 1px solid #696969;
+  }
+

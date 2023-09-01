@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="/style/profile.css"></head>
+<body>
+<header>
+    <h1>User Profile</h1>
+</header>
+<nav>
+    <ul>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="">Articles</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+<main>
+    <section class="profile-section">
+        <h2>Welcome, <span th:text="${user.getUsername()}"></span> !</h2>
+    </section>
+</main>
+<footer>
+    <p> 2023 Your Blog Platform</p>
+</footer>
+</body>
+</html>

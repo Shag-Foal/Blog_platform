@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ArticleService {
-    public final ArticleRepo articleRepo;
+    private final ArticleRepo articleRepo;
     @Autowired
     public ArticleService(ArticleRepo articleRepo){
         this.articleRepo = articleRepo;
@@ -15,6 +15,10 @@ public class ArticleService {
 
     public void save(Article article){
         articleRepo.save(article);
+    }
+
+    public Article getById(Long id){
+        return articleRepo.getOne(id);
     }
 
 }

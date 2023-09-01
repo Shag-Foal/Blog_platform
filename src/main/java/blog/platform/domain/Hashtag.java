@@ -24,4 +24,7 @@ public class Hashtag {
     @OneToMany(mappedBy = "hashtag")
     private List<ArticleHashtag> articleHashtags;
 
+    public Hashtag(String hashtagValue) {
+        hashtag = hashtagValue;
+    }
 }

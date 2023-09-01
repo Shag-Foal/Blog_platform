@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class Main {
@@ -18,7 +17,7 @@ public class Main {
 
     @GetMapping("/createArticle")
     public String createArticle(HttpSession session){
-        if ( (User) session.getAttribute("user") != null){
+        if (session.getAttribute("user") != null){
             return "Article/createArticle";
         }else return "redirect:";
     }
@@ -26,9 +25,11 @@ public class Main {
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model){
         if (session.getAttribute("user") != null){
-            model.addAttribute("user",(User)session.getAttribute("user"));
+            model.addAttribute("user",session.getAttribute("user"));
             return "profile";
         }
         return "redirect:";
     }
+
+
 }

@@ -30,8 +30,7 @@ public class UserService {
 
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException();
         }
     }
 

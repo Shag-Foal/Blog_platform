@@ -2,6 +2,7 @@ package blog.platform.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonDeserialize(using = ArticleDeserializer.class)
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +55,6 @@ public class Article {
         this.author = null;
         this.publishDate = null;
         this.comments = null;
-        this.preview = "null";
+        this.preview = "";
     }
 }

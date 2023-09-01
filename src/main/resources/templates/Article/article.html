@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/style/article.css">
+    <title>Article</title>
+</head>
+<body>
+<div class="article">
+<h1>Заголовок статьи</h1>
+<p>Содержание статьи</p>
+
+<div id="likeDislike">
+    <button id="likeButton">👍🏻</button>
+    <span id="likesCount">0</span>
+    <button id="dislikeButton">👎🏻</button>
+    <span id="dislikesCount">0</span>
+</div>
+
+<p>Дата публикации: <span id="publishDate">2023:08:30 14:30</span></p>
+</div>
+
+<h2>Добавить комментарий</h2>
+<form id="commentForm">
+    <label for="comment">Комментарий:</label><br>
+    <textarea id="comment" name="comment" rows="4" cols="50" required></textarea><br>
+    <input type="submit" value="Отправить">
+</form>
+
+<h2>Комментарии</h2>
+<ul id="comments">
+    <li>
+        <strong>Имя автора комментария 1:</strong>
+        <p>Текст комментария 1.</p>
+    </li>
+    <li>
+        <strong>Имя автора комментария 2:</strong>
+        <p>Текст комментария 2.</p>
+    </li>
+</ul>
+</body>
+</html>

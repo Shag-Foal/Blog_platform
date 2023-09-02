@@ -34,6 +34,11 @@ public class Article {
     @Column(name = "preview")
     private String preview;
 
+    @Column(name = "likes")
+    private Long likes;
+
+    @Column(name = "dislikes")
+    private Long dislikes;
 
     @Column(name = "publish_date", nullable = false)
     private Timestamp publishDate;

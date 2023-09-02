@@ -25,8 +25,11 @@ public class User {
 
     private String password;
 
+    private String email;
+
     @OneToMany(mappedBy = "author")
     private List<Article> articles;
+
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;

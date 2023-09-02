@@ -25,11 +25,23 @@ public class Auth {
 
     @PostMapping("/login")
     public String login(HttpSession session, @ModelAttribute("user") User user2) {
-        User user1 = userService.getUserByUsername(user2.getUsername());
-        if (user1 != null && userService.equalPassword(user1, user2)) {
-            session.setAttribute("user", user2);
-            return "redirect:";
-        } else return "redirect:login";
+        if (user2.getUsername().indexOf('@') == -1) {
+            User user1 = userService.getUserByUsername(user2.getUsername());
+            if (user1 != null && userService.equalPassword(user1, user2)) {
+                user2.setEmail(user1.getEmail());
+                session.setAttribute("user", user2);
+                return "redirect:";
+            } else return "redirect:login";
+        }else {
+            User user1 = userService.getUserByEmail(user2.getUsername());
+            if (user1!=null && userService.equalPassword(user1,user2)){
+                user2.setEmail(user1.getEmail());
+                user2.setUsername(user1.getUsername());
+                session.setAttribute("user",user2);
+                return "redirect:";
+            }
+            else return "redirect:login";
+        }
     }
 
 
@@ -46,7 +58,7 @@ public class Auth {
     public String register(@ModelAttribute("user") User user, HttpSession session) {
         User user1 = (User) session.getAttribute("user");
         try{
-        if (user1 == null && userService.getUserByUsername(user.getUsername()) == null) {
+        if (user1 == null && userService.getUserByUsername(user.getUsername()) == null && userService.getUserByEmail(user.getEmail()) == null) {
             session.setAttribute("user", user);
             userService.save(user);
             return "redirect:";

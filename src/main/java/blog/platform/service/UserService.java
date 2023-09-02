@@ -43,6 +43,10 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
+    public User getUserByEmail(String email){
+        return userRepo.findByEmail(email);
+    }
+
 
     public boolean equalPassword(User user1,User user2){
         user2.setPassword(hash(user2.getPassword()));

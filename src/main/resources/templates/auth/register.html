@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/style/register.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/style/register.css">
 </head>
 <body>
 <div class="wrapper">
 <h2>Registration</h2>
 <form th:method = "POST" th:action = "@{/register}" th:object = "${user}">
+
+    <label for="email">Email</label>
+    <input type="email" name="email" th:field = "*{email}" required> <br>
+    
     <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required><br>
+    <input type="text" id="username" name="username" th:field = "*{username}" required><br>
+
 
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br>
+    <input type="password" id="password" name="password" th:field = "*{password}" required><br>
 
     <input class="btn" type="submit" value="Register">
     <a href="/login">Login</a>

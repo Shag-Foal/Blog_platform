@@ -5,6 +5,8 @@ import blog.platform.repo.ArticleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ArticleService {
     private final ArticleRepo articleRepo;
@@ -18,7 +20,11 @@ public class ArticleService {
     }
 
     public Article getById(Long id){
-        return articleRepo.getById(id);
+        return articleRepo.findArticleById(id);
+    }
+
+    public List<Article> getArticleList(){
+        return articleRepo.findAll();
     }
 
 }

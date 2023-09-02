@@ -3,39 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/style/article.css">
-    <title>Article</title>
+    <title th:text="${article.title}">Article</title>
 </head>
 <body>
-    <div>
-        <h1 class="HeaderTitle">Article</h1>
-    </div>
-    <nav class="navBar">
-        <ul class="unorderedList">
-            <li class="listItem"><a class="link" href="/">Articles</a></li>
-            <li class="listItem"><a class="link" href="/profile">Profile</a></li>
-        </ul>
-    </nav>
+<div>
+    <h1 class="HeaderTitle" th:text="${article.title}">Article</h1>
+</div>
+<nav class="navBar">
+    <ul class="unorderedList">
+        <li class="listItem"><a class="link" href="/">Articles</a></li>
+        <li class="listItem"><a class="link" href="/profile">Profile</a></li>
+    </ul>
+</nav>
 <main>
-<div class="article">
-<h1>Заголовок статьи</h1>
-<p>Содержание статьи</p>
-<div class="class">
-<div id="likeDislike">
-    <button class="button-like">👍🏻</button>
-    <span id="likesCount">0</span>
-    <button class="button-like">👎🏻</button>
-    <span id="dislikesCount">0</span>
-</div>
-<div class="date"><p>Дата публикации: <span id="publishDate">2023:08:30 14:30</span></p></div>
-</div>
-</div>
-<div >
-<form id="commentForm" class="comment-meta">
-    <label for="comment">Комментарий:</label><br>
-    <textarea class="comment-content" id="comment" name="comment" rows="4" cols="50" required></textarea><br>
-    <input class="hover_button" type="submit" value="Отправить">
-</form>
-</div>
+    <div class="article">
+        <h1 class="h2" th:text="${article.title}">Заголовок статьи</h1>
+        <div th:utext="${article.content}"></div>
+        <div class="class">
+            <div id="likeDislike">
+                <button class="button-like">👍🏻</button>
+                <span id="likesCount" th:text="${article.likes}">0</span>
+                <button class="button-like">👎🏻</button>
+                <span id="dislikesCount" th:text="${article.dislikes}">0</span>
+            </div>
+            <div class="date">
+                <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy:MM:dd HH:mm')}">2023:08:30 14:30</span></p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <form id="commentForm" class="comment-meta">
+            <label for="comment">Комментарий:</label><br>
+            <textarea class="comment-content" id="comment" name="comment" rows="4" cols="50" required></textarea><br>
+            <input class="hover_button" type="submit" value="Отправить">
+        </form>
+    </div>
 </main>
 </body>
 </html>

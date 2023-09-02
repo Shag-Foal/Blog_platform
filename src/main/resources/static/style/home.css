@@ -46,3 +46,50 @@ a:hover {
     background-color: #3498db;
     color: white;
 }
+.article-card {
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+.article-avatar {
+    width: 150px;
+    height: 120px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.article-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.article-views {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.article-date {
+    font-size: 14px;
+    color: #555;
+    margin-top: auto;
+}
+.article-likes{
+    font-size: 16px;
+    color: #555;
+    margin-left: 120px;
+}
+

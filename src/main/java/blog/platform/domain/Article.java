@@ -27,7 +27,7 @@ public class Article {
     @NotEmpty(message = "title should not be empty")
     private String title;
 
-    @Column(nullable = false,name = "content")
+    @Column(nullable = false, name = "content", columnDefinition = "TEXT")
     @NotEmpty(message = "content should not be empty")
     private String content;
 
@@ -43,6 +43,7 @@ public class Article {
     @Column(name = "publish_date", nullable = false)
     private Timestamp publishDate;
 
+    private String contentPreview;
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;

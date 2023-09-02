@@ -42,7 +42,8 @@ let article = {
     hashtags:'',
     publishDate: '',
     preview:'',
-    title:''
+    title:'',
+    contentPreview:''
 }
 
 imageInput.addEventListener('change', function () {
@@ -63,6 +64,10 @@ const form = document.getElementById('form')
 
 form.addEventListener('submit',(event) => {
     event.preventDefault()
+    const  content = document.getElementById("editor").value
+    if (content.size > 20){
+        article.contentPreview = content + '...'
+    }else {article.contentPreview = content.substring(0,20) + '...'}
     article.content = document.getElementById('editor').innerHTML
     article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '')
     article.title = document.getElementById('title').value

@@ -89,11 +89,15 @@ main {
     color: white;
     margin-bottom: 20px;
 }
+.h2{ text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    }
 
 .article p {
     color: #333;
     line-height: 1.6;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .comments-section {
@@ -265,3 +269,4 @@ ul.comments-list li {
     justify-content: flex-end;
     gap: 5px;
 }
+

@@ -25,10 +25,13 @@ public class ArticleController {
     @PostMapping("/newArticle")
     @ResponseBody
     public ResponseEntity<String> newArticle(@RequestBody Article article,HttpSession session){
-        article.setAuthor((User) session.getAttribute("user"));
-        article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
-        userService.save((User) session.getAttribute("user"));
-        articleService.save(article);
-        return ResponseEntity.ok("Сохранено");
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            article.setAuthor(userService.getUserByUsername(user.getUsername()));
+            article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
+            articleService.save(article);
+            return ResponseEntity.ok("Сохранено");
+        }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
     }
+
 }

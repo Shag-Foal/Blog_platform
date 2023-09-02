@@ -115,6 +115,7 @@ body {
 #image-preview-container {
   width: 100%;
   max-height: 250px;
+    overflow: scroll;
 }
 .file-input-button {
     display: inline-block;

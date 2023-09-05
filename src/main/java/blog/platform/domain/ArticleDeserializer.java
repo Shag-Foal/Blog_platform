@@ -25,7 +25,7 @@ public class ArticleDeserializer extends JsonDeserializer<Article> {
         article.setTitle(node.get("title").asText());
         article.setContent(node.get("content").asText());
         article.setPreview(node.get("preview").asText());
-        article.setContentPreview(node.get("contentPreview").asText());
+        //article.setContentPreview(node.get("contentPreview").asText());
 
         List<ArticleHashtag> articleHashtags = new ArrayList<>();
         ArrayNode hashtagsNode = (ArrayNode) node.get("hashtags");

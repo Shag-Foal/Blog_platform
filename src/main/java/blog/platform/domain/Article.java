@@ -43,7 +43,7 @@ public class Article {
     @Column(name = "publish_date", nullable = false)
     private Timestamp publishDate;
 
-    private String contentPreview;
+    //private String contentPreview;
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;

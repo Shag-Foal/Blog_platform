@@ -42,8 +42,7 @@ let article = {
     hashtags:'',
     publishDate: '',
     preview:'',
-    title:'',
-    contentPreview:''
+    title:''
 }
 
 imageInput.addEventListener('change', function () {
@@ -52,7 +51,7 @@ imageInput.addEventListener('change', function () {
         const file = imageInput.files[i];
         if (file.type.match('image.*')) {
             const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
+            img.src = URL.createObjectURL(file);//
             article.preview = img.src
             img.classList.add('preview-image');
             imagePreviewContainer.appendChild(img);
@@ -64,10 +63,6 @@ const form = document.getElementById('form')
 
 form.addEventListener('submit',(event) => {
     event.preventDefault()
-    const  content = document.getElementById("editor").value
-    if (content.size > 20){
-        article.contentPreview = content + '...'
-    }else {article.contentPreview = content.substring(0,20) + '...'}
     article.content = document.getElementById('editor').innerHTML
     article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '')
     article.title = document.getElementById('title').value

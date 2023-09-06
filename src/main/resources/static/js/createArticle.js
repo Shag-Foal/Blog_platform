@@ -37,13 +37,6 @@ tinymce.init(dfreeHeaderConfig);
 tinymce.init(dfreeBodyConfig);
 const imageInput = document.getElementById('images');
 const imagePreviewContainer = document.getElementById('image-preview-container');
-let article = {
-    content:'',
-    hashtags:'',
-    publishDate: '',
-    preview:'',
-    title:''
-}
 
 imageInput.addEventListener('change', function () {
     imagePreviewContainer.innerHTML = '';
@@ -52,7 +45,6 @@ imageInput.addEventListener('change', function () {
         if (file.type.match('image.*')) {
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);//
-            article.preview = img.src
             img.classList.add('preview-image');
             imagePreviewContainer.appendChild(img);
         }
@@ -60,24 +52,45 @@ imageInput.addEventListener('change', function () {
 });
 
 const form = document.getElementById('form')
+let article = {
+    content:'',
+    hashtags:'',
+    publishDate: '',
+    preview:'',
+    title:''
+}
 
-form.addEventListener('submit',(event) => {
-    event.preventDefault()
-    article.content = document.getElementById('editor').innerHTML
-    article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '')
-    article.title = document.getElementById('title').value
-    console.log(JSON.stringify(article))
-    fetch('/newArticle',{
-        method:'POST',
-        headers:{
-            'Content-Type': 'application/json'
-        },
-        body:JSON.stringify(article)
-    }).then(response =>{
-        if (response.ok){
-            window.location.href = 'http://localhost:8080 '
-        }
-        else console.log('Ошибка при отправке')
-    }).catch(e => console.log('Ошибка' + e))
-})
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    article.content = document.getElementById('editor').innerHTML;
+    article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
+    article.title = document.getElementById('title').value;
 
+    const formData = new FormData(form);
+
+    fetch('/uploadImage', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.text())
+        .then(data => {
+            article.preview = data;
+
+            fetch('/newArticle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(article),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'http://localhost:8080';
+                    } else {
+                        console.log('Ошибка при отправке');
+                    }
+                })
+                .catch(e => console.log('Ошибка' + e));
+        })
+        .catch(error => console.error('Ошибка при загрузке изображения', error));
+});

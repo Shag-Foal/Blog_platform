@@ -4,6 +4,7 @@ import blog.platform.domain.User;
 import blog.platform.service.ArticleService;
 import blog.platform.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import blog.platform.domain.Article;
@@ -40,16 +41,19 @@ public class ArticleController {
     public String handleImageUpload(@RequestParam("image") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String uploadsDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\uploads\\";
+                String uploadDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\uploads\\";
                 String fileName = file.getOriginalFilename();
-                String filePath = uploadsDir + fileName;
+                String filePath = uploadDir + File.separator + fileName;
                 File dest = new File(filePath);
-                file.transferTo(dest);
+
+                Thumbnails.of(file.getInputStream())
+                        .size(150, 120)
+                        .toFile(dest);
 
                 return "/uploads/" + fileName;
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Ошибка при загрузке изображения.");
+                throw new RuntimeException("Ошибка при загрузке или обработке изображения.");
             }
         } else {
             throw new RuntimeException("Выберите изображение для загрузки.");

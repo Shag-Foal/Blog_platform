@@ -65,9 +65,7 @@ form.addEventListener('submit', (event) => {
     article.content = document.getElementById('editor').innerHTML;
     article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
     article.title = document.getElementById('title').value;
-
     const formData = new FormData(form);
-
     fetch('/uploadImage', {
         method: 'POST',
         body: formData,

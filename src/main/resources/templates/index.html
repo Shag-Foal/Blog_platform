@@ -4,31 +4,45 @@
     <meta charset="UTF-8">
     <title>
         Welcome to the blogging platform!</title>
-    <link rel="stylesheet" href="../static/style/home.css">
+    <link rel="stylesheet" href="/style/home.css">
 </head>
 <body>
 <header>
     <h1>
-        Welcome to the blogging platform!</h1>
+        Добро пожаловать!</h1>
 </header>
 <nav>
     <ul>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/createArticle">Create</a></li>
+        <li><a href="/profile">Профиль</a></li>
     </ul>
 </nav>
-<div class="article-card">
-    <img class="article-avatar" src="" alt="Channel Avatar">
-    <div class="article-info">
-        <h2 class="article-name">Название поста</h2>
-        <div class="article-description">
-            <p class="article-views"><span>123,133</span> просмотров</p>
+<div th:if="${articles.size() > 0}">
+    <th:block th:each="article : ${articles}">
+        <div class="article-card">
+            <img class="article-avatar"  th:src="${article.getPreview()}" alt="Article preview">
+            <div class="article-info">
+                <h2 class="article-name" th:text="${article.getTitle()}">Название поста</h2>
+                <div class="article-description">
+                    <p class="article-views">
+                        <span th:text="${article.getViews()}">123,133</span> просмотров
+                    </p>
+                </div>
+            </div>
+            <div class="article-date">
+                <span class="article-likes">
+                    <span th:text="${article.getLikes()}">11111110</span> понравившихся
+                </span>
+                <p class="articleDate">
+                    Опубликовано <span><b th:text="${#dates.format(article.getPublishDate(), 'yyyy.MM.dd HH:mm')}">yyyy.MM.dd HH:mm</b></span>
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="article-date">
-        <span class="article-likes"><span>177</span> понравившся</span>
-        <p class="articleDate">Опубликовано <span><b>yyyy.mm.dd</b></span></p>
-    </div>
+    </th:block>
+</div>
+
+
+<div th:if="${articles.size() == 0}" style="text-align: center;">
+    <p>Нет доступных артиклов.</p>
 </div>
 </body>
 </html>

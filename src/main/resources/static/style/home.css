@@ -47,6 +47,7 @@ a:hover {
     color: white;
 }
 .article-card {
+    position: relative;
     display: flex;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -91,7 +92,9 @@ a:hover {
 .article-likes{
     font-size: 16px;
     color: #555;
-    margin-left: 120px;
+    position: absolute;
+    right: 10px;
+    bottom: 45px;
 }
 .articleDate{
     margin-left: 75px;

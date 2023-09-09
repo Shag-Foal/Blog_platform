@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import blog.platform.domain.Article;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -31,6 +32,9 @@ public class ArticleController {
         if (user != null) {
             article.setAuthor(userService.getUserByUsername(user.getUsername()));
             article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
+            article.setLikes(0L);
+            article.setDislikes(0L);
+            article.setViews(0L);
             articleService.save(article);
             return ResponseEntity.ok("Сохранено");
         }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
@@ -41,7 +45,7 @@ public class ArticleController {
     public String handleImageUpload(@RequestParam("image") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String uploadDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\uploads\\";
+                String uploadDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\static\\uploads";
                 String fileName = file.getOriginalFilename();
                 String filePath = uploadDir + File.separator + fileName;
                 File dest = new File(filePath);
@@ -59,5 +63,6 @@ public class ArticleController {
             throw new RuntimeException("Выберите изображение для загрузки.");
         }
     }
+
 
 }

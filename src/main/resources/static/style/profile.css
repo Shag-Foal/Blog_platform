@@ -1,3 +1,4 @@
+/* Общие стили для страницы */
 body {
     margin: 0;
     padding: 0;
@@ -5,55 +6,199 @@ body {
     background-color: #f2f2f2;
 }
 
-
-header h1 {
+header {
+    background-color: #3498db;
+    color: white;
     text-align: center;
     padding: 20px;
-    background-color: #3498db;
-    color: white;
-}
-
-
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-nav ul li {
-    float: left;
-}
-
-nav ul li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    background-color: #3498db;
 }
 
 
 main {
-    padding: 20px;
-}
-
-.profile-section {
-    background-color: white;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h2 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.user-info p {
+    margin: 10px 0;
+}
+
+.user-articles ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-articles ul li {
+    margin-bottom: 10px;
+}
+
+.user-articles ul li a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.user-articles ul li a:hover {
+    color: #258cd1;
+}
 
 footer {
     text-align: center;
+    margin-top: 20px;
     padding: 10px;
     background-color: #333;
     color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* Добавьте эти стили к вашему файлу profile.css */
+.navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.nav-unorderedList {
+    list-style: none;
+    padding: 0;
+}
+
+.nav-listItem {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+
+.nav-link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #3498db;
+    border: 1px solid #3498db;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #3498db;
+    color: white;
+}
+a{
+    color: #fff;
+    text-decoration: none;
+}
+a:hover {
+    background-color: #3498db;
+    color: white;
+}
+.article-card {
+    position: relative;
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    align-items: center;
+}
+
+.article-avatar {
+    width: 150px;
+    height: 120px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.article-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.article-views {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+    margin-top: 30px;
+}
+
+.article-date {
+    font-size: 14px;
+    color: #555;
+    margin-top: auto;
+}
+.article-likes{
+    font-size: 16px;
+    color: #555;
+    position: absolute;
+    right: 10px;
+    bottom: 45px;
+}
+.articleDate{
+    margin-left: 75px;
+}
+
+/* Стили для информации о пользователе */
+/* Стили для информации о пользователе */
+.user-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.user-info p {
+    margin: 10px 0;
+}
+
+/* Стили для кнопок */
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#edit-button {
+    background-color: #3498db;
+    color: white;
+}
+
+#edit-button:hover {
+    background-color: #258cd1;
+}
+
+#logout-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+#logout-button:hover {
+    background-color: #c0392b;
 }

@@ -40,10 +40,11 @@ public class Article {
     @Column(name = "dislikes")
     private Long dislikes;
 
+    private Long views;
+
     @Column(name = "publish_date", nullable = false)
     private Timestamp publishDate;
 
-    //private String contentPreview;
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;

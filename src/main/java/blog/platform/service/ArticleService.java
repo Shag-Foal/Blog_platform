@@ -1,6 +1,7 @@
 package blog.platform.service;
 
 import blog.platform.domain.Article;
+import blog.platform.domain.User;
 import blog.platform.repo.ArticleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,7 @@ public class ArticleService {
         return articleRepo.findAll();
     }
 
+    public List<Article> getArticleListByUser(User user){
+        return articleRepo.findAllByAuthor(user);
+    }
 }

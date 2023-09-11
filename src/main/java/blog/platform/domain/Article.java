@@ -34,10 +34,8 @@ public class Article {
     @Column(name = "preview")
     private String preview;
 
-    @Column(name = "likes")
     private Long likes;
 
-    @Column(name = "dislikes")
     private Long dislikes;
 
     private Long views;

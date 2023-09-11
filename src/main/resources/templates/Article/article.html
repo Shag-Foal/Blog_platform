@@ -11,8 +11,8 @@
 </div>
 <nav class="navBar">
     <ul class="unorderedList">
-        <li class="listItem"><a class="link" href="/">Articles</a></li>
-        <li class="listItem"><a class="link" href="/profile">Profile</a></li>
+        <li class="listItem"><a class="link" href="/">Главная</a></li>
+        <li class="listItem"><a class="link" href="/profile">Профиль</a></li>
     </ul>
 </nav>
 <main>
@@ -21,13 +21,14 @@
         <div th:utext="${article.content}"></div>
         <div class="class">
             <div id="likeDislike">
-                <button class="button-like">👍🏻</button>
-                <span id="likesCount" th:text="${article.likes}">0</span>
-                <button class="button-like">👎🏻</button>
+                <button class="button-like" th:attr="onclick='handleLike(\'' + ${article.id} + '\')'">👍🏻</button>
+                <span id="likesCount" th:text="${article.getLikes()}">0</span>
+                <button class="button-dislike" th:attr="onclick='handleDislike(\'' + ${article.id} + '\')'">👎🏻</button>
                 <span id="dislikesCount" th:text="${article.dislikes}">0</span>
             </div>
             <div class="date">
                 <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy:MM:dd HH:mm')}">2023:08:30 14:30</span></p>
+                <p>Автор:  <span th:text="${article.getAuthor().getSurname()}">Иван</span> <span th:text="${article.getAuthor().getUsername()}">Иванов</span></p>
             </div>
         </div>
     </div>
@@ -39,5 +40,56 @@
         </form>
     </div>
 </main>
+<script>
+    function handleLike(articleID) {
+        fetch(`/${articleID}/like`, {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'Liked') {
+                    const likesCount = document.getElementById('likesCount');
+                    likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                } else if (data === 'AlreadyLiked') {
+                    alert('Вы уже поставили лайк');
+                }
+                else if (data==='Swapped'){
+                    const likesCount = document.getElementById('likesCount');
+                    likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                    const dislikesCount = document.getElementById('dislikesCount');
+                    dislikesCount.textContent = parseInt(dislikesCount.textContent) -1;
+                }
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
+    }
+
+    function handleDislike(articleID) {
+        fetch(`/${articleID}/dislike`, {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'Disliked') {
+                    const dislikesCount = document.getElementById('dislikesCount');
+                    dislikesCount.textContent = parseInt(dislikesCount.textContent) + 1;
+                } else if (data === 'AlreadyDisliked') {
+                    alert('Вы уже поставили дизлайк');
+                }
+                else if (data==='Swapped'){
+                    const likesCount = document.getElementById('likesCount');
+                    likesCount.textContent = parseInt(likesCount.textContent) - 1;
+                    const dislikesCount = document.getElementById('dislikesCount');
+                    dislikesCount.textContent = parseInt(dislikesCount.textContent) + 1;
+                }
+            })
+            .catch(error => {
+                console.error('Произошла ошибка:', error);
+            });
+    }
+</script>
 </body>
 </html>

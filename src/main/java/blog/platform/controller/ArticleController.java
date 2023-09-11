@@ -1,68 +1,114 @@
 package blog.platform.controller;
 
+import blog.platform.domain.ActionType;
+import blog.platform.domain.Article;
+import blog.platform.domain.ArticleRatings;
 import blog.platform.domain.User;
+import blog.platform.service.ArticleRatingsService;
 import blog.platform.service.ArticleService;
 import blog.platform.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import blog.platform.domain.Article;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
-@RestController
+@Controller
 public class ArticleController {
+    private final ArticleRatingsService articleRatingsService;
     private final ArticleService articleService;
     private final UserService userService;
 
-    public ArticleController(ArticleService articleService,UserService userService){
+    public ArticleController(ArticleService articleService, ArticleRatingsService articleRatingsService, UserService userService) {
         this.articleService = articleService;
+        this.articleRatingsService = articleRatingsService;
         this.userService = userService;
     }
-    @PostMapping("/newArticle")
-    @ResponseBody
-    public ResponseEntity<String> newArticle(@RequestBody Article article,HttpSession session){
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
-            article.setAuthor(userService.getUserByUsername(user.getUsername()));
-            article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
-            article.setLikes(0L);
-            article.setDislikes(0L);
-            article.setViews(0L);
-            articleService.save(article);
-            return ResponseEntity.ok("Сохранено");
-        }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
+
+    @GetMapping("/{id}")
+    public String article(@PathVariable("id") Long id, HttpSession session, Model model) {
+        if (session.getAttribute("user") != null) {
+            Article article = articleService.getById(id);
+            if (article != null) {
+                article.setViews(article.getViews() + 1);
+                articleService.save(article);
+                model.addAttribute("article", article);
+                return "Article/article";
+            }
+        }
+        return "redirect:/login";
     }
 
-    @PostMapping("/uploadImage")
-    @ResponseBody
-    public String handleImageUpload(@RequestParam("image") MultipartFile file) {
-        if (!file.isEmpty()) {
-            try {
-                String uploadDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\static\\uploads";
-                String fileName = file.getOriginalFilename();
-                String filePath = uploadDir + File.separator + fileName;
-                File dest = new File(filePath);
-
-                Thumbnails.of(file.getInputStream())
-                        .size(150, 120)
-                        .toFile(dest);
-
-                return "/uploads/" + fileName;
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Ошибка при загрузке или обработке изображения.");
-            }
+    @PostMapping("/{id}/like")
+    public ResponseEntity<String> like(@PathVariable("id") Long id, HttpSession session) {
+        User user1 = (User) session.getAttribute("user");
+        User user = userService.getUserByUsername(user1.getUsername());
+        ArticleRatings articleRatings = articleRatingsService.getArticleRatings_ByArticleIdAndUserId(id, user.getId());
+        Article article = articleService.getById(id);
+        if (articleRatings != null) {
+            return ResponseEntity.ok(like(article, articleRatings, user));
         } else {
-            throw new RuntimeException("Выберите изображение для загрузки.");
+            article.setLikes(article.getLikes() + 1);
+            articleRatings = new ArticleRatings();
+            articleRatings.setActionType(ActionType.like);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return ResponseEntity.ok("Liked");
+        }
+    }
+
+    private String like(Article article, ArticleRatings articleRatings, User user) {
+        if (articleRatings.getActionType() == ActionType.dislike) {
+            article.setLikes(article.getLikes() + 1);
+            article.setDislikes(article.getDislikes() - 1);
+            articleRatings.setActionType(ActionType.like);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "Swapped";
+        } else {
+            return "AlreadyLiked";
         }
     }
 
 
+    @PostMapping("/{id}/dislike")
+    public ResponseEntity<String> dislike(@PathVariable("id") Long id, HttpSession session) {
+        User user1 = (User) session.getAttribute("user");
+        User user = userService.getUserByUsername(user1.getUsername());
+        ArticleRatings articleRatings = articleRatingsService.getArticleRatings_ByArticleIdAndUserId(id, user.getId());
+        Article article = articleService.getById(id);
+        if (articleRatings != null) {
+            return ResponseEntity.ok(dislike(article, articleRatings, user));
+        } else {
+            articleRatings = new ArticleRatings();
+            article.setDislikes(article.getDislikes() + 1);
+            articleRatings.setActionType(ActionType.dislike);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return ResponseEntity.ok("Disliked");
+        }
+    }
+
+    private String dislike(Article article, ArticleRatings articleRatings, User user) {
+        if (articleRatings.getActionType() == ActionType.like) {
+            article.setLikes(article.getLikes() - 1);
+            article.setDislikes(article.getDislikes() + 1);
+            articleRatings.setActionType(ActionType.dislike);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "Swapped";
+        } else {
+            return "AlreadyDisliked";
+        }
+    }
 }

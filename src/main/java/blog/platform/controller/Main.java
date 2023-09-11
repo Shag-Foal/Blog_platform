@@ -41,8 +41,9 @@ public class Main {
 
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model){
-        if (session.getAttribute("user") != null){
-            model.addAttribute("user",session.getAttribute("user"));
+        User user = (User) session.getAttribute("user");
+        if (user != null){
+            model.addAttribute("user",user);
             return "/profile/profile";
         }
         return "redirect:";

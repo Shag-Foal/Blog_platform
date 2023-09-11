@@ -13,11 +13,12 @@
 </header>
 <nav>
     <ul>
-        <li><a href="/profile">Профиль</a></li>
+        <li><a class="a" href="/profile">Профиль</a></li>
     </ul>
 </nav>
 <div th:if="${articles.size() > 0}">
     <th:block th:each="article : ${articles}">
+        <a class="link" th:href="@{'/' + ${article.getId()}}">
         <div class="article-card">
             <img class="article-avatar"  th:src="${article.getPreview()}" alt="Article preview">
             <div class="article-info">
@@ -37,10 +38,9 @@
                 </p>
             </div>
         </div>
+        </a>
     </th:block>
 </div>
-
-
 <div th:if="${articles.size() == 0}" style="text-align: center;">
     <p>Нет доступных артиклов.</p>
 </div>

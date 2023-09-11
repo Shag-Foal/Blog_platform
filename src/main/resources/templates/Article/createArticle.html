@@ -31,7 +31,7 @@
         </div>
         <div>
             <label for="hashtags">HashTags:</label>
-            <input type="text" id="hashtags" name="hashtags" pattern="^#[a-zA-Z0-9]+(, #[a-zA-Z0-9]+)*$" required>
+            <textarea id="hashtags" name="hashtags" pattern="^#[a-zA-Z0-9]+(, #[a-zA-Z0-9]+)*$" required rows="4" cols="50"></textarea>
             <p class="error-message">Hashtags should start with #.</p>
         </div>
         <button id="submitBtn" type="submit">Создать</button>

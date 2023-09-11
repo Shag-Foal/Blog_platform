@@ -27,12 +27,17 @@ public class User {
 
     private String email;
 
+    private String surname;
+
     @OneToMany(mappedBy = "author")
     private List<Article> articles;
 
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments;
+
+//    @ManyToMany(mappedBy = "users")
+//    private List<ArticleRatings> articleRatings;
 
     @Override
     public String toString() {

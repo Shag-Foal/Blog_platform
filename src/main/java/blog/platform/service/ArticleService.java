@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class ArticleService {
     private final ArticleRepo articleRepo;
-    @Autowired
     public ArticleService(ArticleRepo articleRepo){
         this.articleRepo = articleRepo;
     }
@@ -31,4 +30,5 @@ public class ArticleService {
     public List<Article> getArticleListByUser(User user){
         return articleRepo.findAllByAuthor(user);
     }
+
 }

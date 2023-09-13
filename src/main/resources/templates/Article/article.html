@@ -50,12 +50,13 @@
                         Текст комментария
                     </div>
                     <div class="actions">
-                        <span class="span">Ответить</span>
+                        <span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>
                         <div style="display: none;" th:text="${comment.getId()}"></div>
-                        <span th:attr="onclick='commentLike(\'' + ${comment.id} + '\')'" class="span">Поддерживаю</span>
+                        <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'"class="span">Поддерживаю</span>
                         <span id="commentLikes" th:text="${comment.getLikes()}">100</span>
                     </div>
                 </div>
+                <div class="replyComment" id="replyFormContainer"></div>
             </th:block>
         </div>
         <div th:if="${comments.size() == 0}" style="text-align: center;">

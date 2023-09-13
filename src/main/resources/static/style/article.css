@@ -60,7 +60,6 @@ header p {
 }
 
 main {
-    padding: 20px;
     font-family: Arial, sans-serif;
     line-height: 1.6;
     background-color: #f2f2f2;
@@ -306,4 +305,9 @@ ul.comments-list li {
 }
 .date_{
     color: #333;
+}
+
+.replyComment{
+    position: relative;
+    margin-left: 80px;
 }

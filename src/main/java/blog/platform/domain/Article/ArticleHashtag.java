@@ -12,9 +12,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ArticleHashtag {
-    public ArticleHashtag(Hashtag hashtag){
-        this.hashtag = hashtag;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

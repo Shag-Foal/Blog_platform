@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class CommentDeserializer extends JsonDeserializer<Comment> {
     @Override
-    public Comment deserialize(JsonParser jp, DeserializationContext deserializationContext) throws IOException, JacksonException {
+    public Comment deserialize(JsonParser jp, DeserializationContext deserializationContext) throws IOException {
         JsonNode node = jp.getCodec().readTree(jp);
         Comment comment = new Comment();
         Article article = new Article();

@@ -56,7 +56,6 @@ public class ArticleRestController {
 
                 return "/uploads/" + fileName;
             } catch (IOException e) {
-                e.printStackTrace();
                 throw new RuntimeException("Ошибка при загрузке или обработке изображения.");
             }
         } else {

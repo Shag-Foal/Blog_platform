@@ -1,6 +1,6 @@
 package blog.platform.controller;
 
-import blog.platform.domain.UpdateArticle;
+import blog.platform.domain.Article.UpdateArticle;
 import blog.platform.domain.User;
 import blog.platform.service.ArticleService;
 import blog.platform.service.UserService;
@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import blog.platform.domain.Article;
+import blog.platform.domain.Article.Article;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

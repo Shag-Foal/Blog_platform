@@ -1,6 +1,8 @@
-package blog.platform.domain;
+package blog.platform.domain.Article;
 
 
+import blog.platform.domain.Comment.Comment;
+import blog.platform.domain.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;

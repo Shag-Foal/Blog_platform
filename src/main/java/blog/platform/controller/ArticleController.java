@@ -1,11 +1,12 @@
 package blog.platform.controller;
 
-import blog.platform.domain.ActionType;
-import blog.platform.domain.Article;
-import blog.platform.domain.ArticleRatings;
-import blog.platform.domain.User;
+import blog.platform.domain.*;
+import blog.platform.domain.Article.ActionType;
+import blog.platform.domain.Article.Article;
+import blog.platform.domain.Article.ArticleRatings;
 import blog.platform.service.ArticleRatingsService;
 import blog.platform.service.ArticleService;
+import blog.platform.service.CommentService;
 import blog.platform.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,13 @@ public class ArticleController {
     private final ArticleRatingsService articleRatingsService;
     private final ArticleService articleService;
     private final UserService userService;
+    private final CommentService commentService;
 
-    public ArticleController(ArticleService articleService, ArticleRatingsService articleRatingsService, UserService userService) {
+    public ArticleController(ArticleService articleService, ArticleRatingsService articleRatingsService, UserService userService,CommentService commentService) {
         this.articleService = articleService;
         this.articleRatingsService = articleRatingsService;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/{id}")
@@ -35,6 +38,7 @@ public class ArticleController {
                 article.setViews(article.getViews() + 1);
                 articleService.save(article);
                 model.addAttribute("article", article);
+                model.addAttribute("comments",commentService.getAllCommentByArticleId(article.getId()));
                 return "Article/article";
             }
         }
@@ -72,7 +76,13 @@ public class ArticleController {
             articleRatingsService.save(articleRatings);
             return "Swapped";
         } else {
-            return "AlreadyLiked";
+            article.setLikes(article.getLikes() - 1);
+            articleRatings.setActionType(ActionType.like);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "removeLike";
         }
     }
 
@@ -108,7 +118,13 @@ public class ArticleController {
             articleRatingsService.save(articleRatings);
             return "Swapped";
         } else {
-            return "AlreadyDisliked";
+            article.setDislikes(article.getDislikes() - 1);
+            articleRatings.setActionType(ActionType.dislike);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "removeDislike";
         }
     }
 }

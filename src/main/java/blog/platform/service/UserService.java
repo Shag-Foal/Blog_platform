@@ -1,6 +1,5 @@
 package blog.platform.service;
 
-import blog.platform.domain.Article;
 import blog.platform.domain.User;
 import blog.platform.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 @Service
 public class UserService {

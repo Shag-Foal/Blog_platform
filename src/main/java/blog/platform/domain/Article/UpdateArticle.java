@@ -1,4 +1,4 @@
-package blog.platform.domain;
+package blog.platform.domain.Article;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

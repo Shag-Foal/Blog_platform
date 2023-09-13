@@ -1,9 +1,8 @@
 package blog.platform.service;
 
-import blog.platform.domain.Article;
+import blog.platform.domain.Article.Article;
 import blog.platform.domain.User;
 import blog.platform.repo.ArticleRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

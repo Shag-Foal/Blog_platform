@@ -1,6 +1,6 @@
 package blog.platform.service;
 
-import blog.platform.domain.ArticleRatings;
+import blog.platform.domain.Article.ArticleRatings;
 import blog.platform.repo.ArticleRatingsRepo;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
 package blog.platform.domain;
 
+import blog.platform.domain.Article.ArticleHashtag;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

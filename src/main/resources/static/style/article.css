@@ -263,3 +263,47 @@ ul.comments-list li {
     gap: 5px;
 }
 
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.name {
+    color: #333;
+}
+
+.date {
+    color: #999;
+}
+
+.text {
+    margin-bottom: 10px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.span {
+    cursor: pointer;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+.span:hover {
+    text-decoration: underline;
+}
+.date_{
+    color: #333;
+}

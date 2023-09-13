@@ -1,5 +1,7 @@
 package blog.platform.domain;
 
+import blog.platform.domain.Article.Article;
+import blog.platform.domain.Comment.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

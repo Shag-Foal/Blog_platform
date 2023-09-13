@@ -1,5 +1,8 @@
-package blog.platform.domain;
+package blog.platform.domain.Comment;
 
+import blog.platform.domain.Article.Article;
+import blog.platform.domain.User;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -15,6 +18,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonDeserialize(using = CommentDeserializer.class)
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +42,8 @@ public class Comment {
 
     @Column(name = "post_date", nullable = false)
     private Timestamp postDate;
+
+    private Long likes;
 
     @Override
     public String toString(){

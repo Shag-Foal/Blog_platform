@@ -1,6 +1,6 @@
 package blog.platform.repo;
 
-import blog.platform.domain.Article;
+import blog.platform.domain.Article.Article;
 import blog.platform.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

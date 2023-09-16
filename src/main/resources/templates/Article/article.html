@@ -21,9 +21,14 @@
         <div th:utext="${article.content}"></div>
         <div class="class">
             <div id="likeDislike">
-                <button class="button-like" th:attr="onclick='handleLike(\'' + ${article.id} + '\')'">👍🏻</button>
+                <button class="like-button" th:attr="onclick='handleLike(\'' + ${article.id} + '\')'">
+                    <img id="like-image" th:src="${articleRatings.actionType == like ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}" alt="Лайк">
+                </button>
                 <span id="likesCount" th:text="${article.getLikes()}">0</span>
-                <button class="button-dislike" th:attr="onclick='handleDislike(\'' + ${article.id} + '\')'">👎🏻</button>
+                <button class="dislike-button" th:attr="onclick='handleDislike(\'' + ${article.id} + '\')'">
+                    <img id="dislike-image" th:src="${articleRatings.actionType == dislike ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}" alt="Дизлайк">
+                </button>
+
                 <span id="dislikesCount" th:text="${article.dislikes}">0</span>
             </div>
             <div class="date">
@@ -50,13 +55,13 @@
                         Текст комментария
                     </div>
                     <div class="actions">
-                        <span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>
+                       <!--<span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>  -->
                         <div style="display: none;" th:text="${comment.getId()}"></div>
                         <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'"class="span">Поддерживаю</span>
                         <span id="commentLikes" th:text="${comment.getLikes()}">100</span>
                     </div>
                 </div>
-                <div class="replyComment" id="replyFormContainer"></div>
+                <div  for="replyComment" class="replyComment" id="replyFormContainer"></div>
             </th:block>
         </div>
         <div th:if="${comments.size() == 0}" style="text-align: center;">

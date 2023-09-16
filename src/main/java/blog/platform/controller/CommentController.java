@@ -49,6 +49,27 @@ public class CommentController {
         else return ResponseEntity.badRequest().body("User not authenticated");
     }
 
+    @PostMapping("/postReplyComment")
+    public ResponseEntity<String> postReplyComment(@RequestBody Comment comment, HttpSession session){
+        User user1 = (User) session.getAttribute("user");
+        User user = userService.getUserByUsername(user1.getUsername());
+        User userResponse = userService.getById(comment.getResponseUser().getId());
+        Article article = articleService.getById(comment.getArticle().getId());
+        if (user != null){
+            if (article != null) {
+                comment.setArticle(article);
+                comment.setUser(user);
+                comment.setLikes(0L);
+                comment.setResponseUser(userResponse);
+                comment.setPostDate(Timestamp.valueOf(LocalDateTime.now()));
+                commentService.save(comment);
+                return ResponseEntity.ok("Comment was saved in bd");
+            }
+            else return ResponseEntity.badRequest().body("not found articleId");
+        }
+        else return ResponseEntity.badRequest().body("User not authenticated");
+    }
+
     @PostMapping("/{id}/commentLike")
     public ResponseEntity<String> likeComment(HttpSession session,@PathVariable("id") Long id){
         User user1 = (User) session.getAttribute("user");

@@ -19,15 +19,15 @@ public class ArticleService {
     }
 
     public Article getById(Long id){
-        return articleRepo.findArticleById(id);
+        return articleRepo.findArticleByIdOrderByPublishDateDesc(id);
     }
 
     public List<Article> getArticleList(){
-        return articleRepo.findAll();
+        return articleRepo.findAllByOrderByPublishDateDesc();
     }
 
     public List<Article> getArticleListByUser(User user){
-        return articleRepo.findAllByAuthor(user);
+        return articleRepo.findAllByAuthorOrderByPublishDateDesc(user);
     }
 
 }

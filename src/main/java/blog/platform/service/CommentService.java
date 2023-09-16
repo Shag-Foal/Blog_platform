@@ -20,7 +20,7 @@ public class CommentService {
     }
 
     public List<Comment> getAllCommentByArticleId(Long id){
-        return commentRepo.getAllByArticleId(id);
+        return commentRepo.getAllByArticleIdOrderByPostDateDesc(id);
     }
 
     public Comment getById(Long id){

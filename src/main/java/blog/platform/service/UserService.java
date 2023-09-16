@@ -53,4 +53,7 @@ public class UserService {
         return user1.getPassword().equals(user2.getPassword());
     }
 
+    public User getById(Long id){
+        return userRepo.findById(id).get();
+    }
 }

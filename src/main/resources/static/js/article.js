@@ -6,17 +6,25 @@ function handleLike(articleID) {
     })
         .then(response => response.text())
         .then(data => {
+            const likeImage = document.getElementById('like-image');
+            const dislikeImage = document.getElementById('dislike-image');
+
             if (data === 'Liked') {
+                dislikeImage.src = '/icons/likeInNoActive.png';
                 const likesCount = document.getElementById('likesCount');
                 likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                likeImage.src = '/icons/likeInActive.png';
             } else if (data === 'removeLike') {
                 const likesCount = document.getElementById('likesCount');
-                likesCount.textContent = parseInt(likesCount.textContent) - 1;            }
-            else if (data==='Swapped'){
+                likesCount.textContent = parseInt(likesCount.textContent) - 1;
+                likeImage.src = '/icons/likeInNoActive.png';
+            } else if (data === 'Swapped') {
                 const likesCount = document.getElementById('likesCount');
                 likesCount.textContent = parseInt(likesCount.textContent) + 1;
+                likeImage.src = '/icons/likeInActive.png';
                 const dislikesCount = document.getElementById('dislikesCount');
-                dislikesCount.textContent = parseInt(dislikesCount.textContent) -1;
+                dislikesCount.textContent = parseInt(dislikesCount.textContent) - 1;
+                dislikeImage.src = '/icons/likeInNoActive.png';
             }
         })
         .catch(error => {
@@ -31,25 +39,33 @@ function handleDislike(articleID) {
     })
         .then(response => response.text())
         .then(data => {
+            const likeImage = document.getElementById('like-image');
+            const dislikeImage = document.getElementById('dislike-image');
             if (data === 'Disliked') {
+                likeImage.src = '/icons/likeInNoActive.png';
                 const dislikesCount = document.getElementById('dislikesCount');
                 dislikesCount.textContent = parseInt(dislikesCount.textContent) + 1;
+                dislikeImage.src = '/icons/likeInActive.png';
             } else if (data === 'removeDislike') {
                 const dislikesCount = document.getElementById('dislikesCount');
-                dislikesCount.textContent = parseInt(dislikesCount.textContent) - 1;            }
-            else if (data==='Swapped'){
+                dislikesCount.textContent = parseInt(dislikesCount.textContent) - 1;
+                dislikeImage.src = '/icons/likeInNoActive.png';
+            } else if (data === 'Swapped') {
                 const likesCount = document.getElementById('likesCount');
                 likesCount.textContent = parseInt(likesCount.textContent) - 1;
+                likeImage.src = '/icons/likeInNoActive.png';
                 const dislikesCount = document.getElementById('dislikesCount');
                 dislikesCount.textContent = parseInt(dislikesCount.textContent) + 1;
+                dislikeImage.src = '/icons/likeInActive.png';
             }
         })
         .catch(error => {
             console.error('Произошла ошибка:', error);
         });
 }
+
 const commentForm = document.getElementById('commentForm');
-const commentReplyForm = document.getElementById('commentReplyForm');
+const commentReplyFormInput  = document.getElementById('commentReplyForm');
 const comment = {
     content:'',
     article:''
@@ -81,29 +97,30 @@ commentForm.addEventListener('submit', function (event) {
         }
     ).catch(e => console.log('Ошибка ' + e))
 });
-commentReplyForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    commentReply.content = document.getElementById('comment').value;
-    commentReply.article = document.getElementById('articleId').textContent;
-    commentReply.replyUser = document.getElementById('parentCommentId').textContent;
+if (commentReplyFormInput ) {
+    commentReplyFormInput .addEventListener('submit', function (event) {
+        event.preventDefault();
+        commentReply.content = document.getElementById('comment').value;
+        commentReply.article = document.getElementById('articleId').textContent;
+        commentReply.replyUser = document.getElementById('parentCommentId').textContent;
 
-    fetch('/postCommentReply',{
-        method:'Post',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body:JSON.stringify(commentReply)
-    }).then(response =>{
-            if (response.ok){
-                console.log('Комментарий успешно отправлен');
-                location.reload();
+        fetch('/postReplyComment', {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(commentReply)
+        }).then(response => {
+                if (response.ok) {
+                    console.log('Комментарий успешно отправлен');
+                    location.reload();
+                } else {
+                    console.log('Ошибка при отправке')
+                }
             }
-            else{
-                console.log('Ошибка при отправке')
-            }
-        }
-    ).catch(e => console.log('Ошибка ' + e))
-});
+        ).catch(e => console.log('Ошибка ' + e))
+    });
+}
 
 
 

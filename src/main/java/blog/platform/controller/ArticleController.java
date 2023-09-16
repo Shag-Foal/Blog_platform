@@ -32,13 +32,19 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public String article(@PathVariable("id") Long id, HttpSession session, Model model) {
-        if (session.getAttribute("user") != null) {
+        User user1 = (User) session.getAttribute("user");
+        User user = userService.getUserByUsername(user1.getUsername());
+        if (user != null) {
             Article article = articleService.getById(id);
+            ArticleRatings articleRatings = articleRatingsService.getArticleRatings_ByArticleIdAndUserId(article.getId(),user.getId());
             if (article != null) {
                 article.setViews(article.getViews() + 1);
                 articleService.save(article);
                 model.addAttribute("article", article);
                 model.addAttribute("comments",commentService.getAllCommentByArticleId(article.getId()));
+                model.addAttribute("articleRatings",articleRatings);
+                model.addAttribute("like",ActionType.like);
+                model.addAttribute("dislike",ActionType.dislike);
                 return "Article/article";
             }
         }
@@ -53,7 +59,8 @@ public class ArticleController {
         Article article = articleService.getById(id);
         if (articleRatings != null) {
             return ResponseEntity.ok(like(article, articleRatings, user));
-        } else {
+        }
+        else{
             article.setLikes(article.getLikes() + 1);
             articleRatings = new ArticleRatings();
             articleRatings.setActionType(ActionType.like);
@@ -75,14 +82,24 @@ public class ArticleController {
             articleService.save(article);
             articleRatingsService.save(articleRatings);
             return "Swapped";
-        } else {
+        }
+        else if (articleRatings.getActionType() == ActionType.like){
             article.setLikes(article.getLikes() - 1);
-            articleRatings.setActionType(ActionType.like);
+            articleRatings.setActionType(null);
             articleRatings.setUser(user);
             articleRatings.setArticle(article);
             articleService.save(article);
             articleRatingsService.save(articleRatings);
             return "removeLike";
+        }
+        else {
+            article.setLikes(article.getLikes() + 1);
+            articleRatings.setActionType(ActionType.like);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "Liked";
         }
     }
 
@@ -95,7 +112,7 @@ public class ArticleController {
         Article article = articleService.getById(id);
         if (articleRatings != null) {
             return ResponseEntity.ok(dislike(article, articleRatings, user));
-        } else {
+        } else{
             articleRatings = new ArticleRatings();
             article.setDislikes(article.getDislikes() + 1);
             articleRatings.setActionType(ActionType.dislike);
@@ -117,14 +134,24 @@ public class ArticleController {
             articleService.save(article);
             articleRatingsService.save(articleRatings);
             return "Swapped";
-        } else {
+        } else if (articleRatings.getActionType() == ActionType.dislike){
             article.setDislikes(article.getDislikes() - 1);
-            articleRatings.setActionType(ActionType.dislike);
+            articleRatings.setActionType(null);
             articleRatings.setUser(user);
             articleRatings.setArticle(article);
             articleService.save(article);
             articleRatingsService.save(articleRatings);
             return "removeDislike";
         }
+        else {
+            article.setDislikes(article.getDislikes() + 1);
+            articleRatings.setActionType(ActionType.dislike);
+            articleRatings.setUser(user);
+            articleRatings.setArticle(article);
+            articleService.save(article);
+            articleRatingsService.save(articleRatings);
+            return "Disliked";
+        }
     }
+
 }

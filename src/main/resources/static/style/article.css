@@ -311,3 +311,29 @@ ul.comments-list li {
     position: relative;
     margin-left: 80px;
 }
+.like-button {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.like-button img {
+    width: 32px;
+    height: 32px;
+}
+.dislike-button {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.dislike-button img {
+    width: 32px;
+    height: 32px;
+    transform: scaleX(-1);
+    transform: rotate(180deg);
+}

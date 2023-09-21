@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../../static/style/previewArticle.css">
+    <link rel="stylesheet" href="/style/previewArticle.css">
     <title th:text="${article.title}">Article</title>
 </head>
 <body>
@@ -15,35 +15,39 @@
         <div th:utext="${article.content}">Content</div>
         <div class="class">
             <div id="likeDislike">
-                
+                <p>Дата публикации: <span th:text="${#dates.format(article.publishDate, 'yyyy.MM.dd HH:mm')}">2023:08:30 14:30</span></p>
             </div>
             <div class="date">
-                <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy:MM:dd HH:mm')}">2023:08:30 14:30</span></p>
                 <p>Автор:  <span th:text="${article.getAuthor().getSurname()}">Иван</span> <span th:text="${article.getAuthor().getUsername()}">Иванов</span></p>
             </div>
         </div>
     </div>
 </main>
 <div class="article-card">
-    <img class="article-avatar"  th:src="${article.getPreview()}" alt="Article preview">
+    <img class="article-avatar" th:src="${article.getPreview()}" alt="Article preview">
     <div class="article-info">
-        <h2 class="article-name" th:text="${article.getTitle()}">Название поста</h2>
+        <h2 class="article-name" id="articleTitle">Название поста</h2>
         <div class="article-description">
             <p class="article-views">
-                <span th:text="${article.getViews()}">111,111</span> просмотров
+                <span>0</span> просмотров
             </p>
         </div>
     </div>
     <div class="article-date">
         <span class="article-likes">
-            <span th:text="${article.getLikes()}">11111111</span> понравившихся
+            <span>0</span> понравившихся
         </span>
-        <p class="articleDate">
-            Опубликовано <span><b th:text="${#dates.format(article.getPublishDate(), 'yyyy.MM.dd HH:mm')}">yyyy.MM.dd HH:mm</b></span>
+        <p class="articleDate"th:text="${#dates.format(article.publishDate, 'yyyy.MM.dd HH:mm')}">
+            Опубликовано <span><b>>yyyy.MM.dd HH:mm</b></span>
         </p>
     </div>
 </div>
-<div class="divBtn"><button class="submitBtn" type="submit">Вернуться</button></div>
-<script src=""></script>
-</body>
+<div class="divBtn"><button class="submitBtn" type="submit" id="returnButton">Вернуться</button></div>
+<script>
+    const returnButton = document.getElementById('returnButton');
+
+    returnButton.addEventListener('click', () => {
+        window.location.href = '/createArticle';
+    });
+</script></body>
 </html>

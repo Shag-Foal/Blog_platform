@@ -8,6 +8,7 @@ import blog.platform.service.ArticleRatingsService;
 import blog.platform.service.ArticleService;
 import blog.platform.service.CommentService;
 import blog.platform.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -33,19 +34,31 @@ public class ArticleController {
         this.userService = userService;
         this.commentService = commentService;
     }
-    @GetMapping("previewArticle")
-    public String previewArticle(HttpSession session, @RequestBody Article article,Model model){
+    @PostMapping("previewArticle")
+    public ResponseEntity<String> previewArticle(HttpSession session, @RequestBody Article article){
         User user = (User) session.getAttribute("user");
         if (user != null) {
             article.setAuthor(userService.getUserByUsername(user.getUsername()));
             article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
-            article.setLikes(0L);
-            article.setDislikes(0L);
-            article.setViews(0L);
-            model.addAttribute("article",article);
-            return "Сохранено";
-        }else return "redirect:login";
+            session.setAttribute("previewArticle",article);
+            return ResponseEntity.ok("ОК");
+        } else {
+            return ResponseEntity.badRequest().body("Пользователь не авторизован");
+        }
     }
+
+    @GetMapping("/previewArticle")
+    public String previewArticle(HttpSession session, Model model){
+        if (session.getAttribute("user") != null){
+            Article article = (Article)session.getAttribute("previewArticle");
+            model.addAttribute("article",article);
+            return "Article/previewArticle";
+        }
+        else {
+            return "redirect:/login";
+        }
+    }
+
     @GetMapping("/{id}")
     public String article(@PathVariable("id") Long id, HttpSession session, Model model) {
         User user1 = (User) session.getAttribute("user");

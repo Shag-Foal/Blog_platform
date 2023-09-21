@@ -21,17 +21,17 @@ public class ArticleDeserializer extends JsonDeserializer<Article> {
         article.setTitle(node.get("title").asText());
         article.setContent(node.get("content").asText());
         article.setPreview(node.get("preview").asText());
-        List<ArticleHashtag> articleHashtags = new ArrayList<>();
-        ArrayNode hashtagsNode = (ArrayNode) node.get("hashtags");
-        if (hashtagsNode != null) {
-            for (JsonNode hashtagNode : hashtagsNode) {
-                String hashtagValue = hashtagNode.asText();
-                ArticleHashtag articleHashtag = new ArticleHashtag();
-                articleHashtag.setHashtag(new Hashtag(hashtagValue));
-                articleHashtags.add(articleHashtag);
-            }
-        }
-        article.setArticleHashtags(articleHashtags);
+//        List<ArticleHashtag> articleHashtags = new ArrayList<>();
+//        ArrayNode hashtagsNode = (ArrayNode) node.get("hashtags");
+//        if (hashtagsNode != null) {
+//            for (JsonNode hashtagNode : hashtagsNode) {
+//                String hashtagValue = hashtagNode.asText();
+//                ArticleHashtag articleHashtag = new ArticleHashtag();
+//                articleHashtag.setHashtag(new Hashtag(hashtagValue));
+//                articleHashtags.add(articleHashtag);
+//            }
+//        }
+//        article.setArticleHashtags(articleHashtags);
         return article;
     }
 }

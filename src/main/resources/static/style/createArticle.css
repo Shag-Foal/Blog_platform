@@ -225,3 +225,6 @@ body {
   background-color: #258cd1;
   color: white;
 }
+#previewArticle:hover {
+    cursor: pointer;
+}

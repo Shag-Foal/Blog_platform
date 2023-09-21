@@ -30,9 +30,11 @@
                 </button>
 
                 <span id="dislikesCount" th:text="${article.dislikes}">0</span>
+                <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy.MM.dd HH:mm')}">2023:08:30 14:30</span></p>
+
             </div>
+            
             <div class="date">
-                <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy:MM:dd HH:mm')}">2023:08:30 14:30</span></p>
                 <p>Автор:  <span th:text="${article.getAuthor().getSurname()}">Иван</span> <span th:text="${article.getAuthor().getUsername()}">Иванов</span></p>
             </div>
         </div>

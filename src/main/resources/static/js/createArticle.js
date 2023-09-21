@@ -54,7 +54,6 @@ imageInput.addEventListener('change', function () {
 const form = document.getElementById('form')
 let article = {
     content:'',
-    hashtags:'',
     publishDate: '',
     preview:'',
     title:''
@@ -64,31 +63,49 @@ const previewArticle = document.getElementById('previewArticle');
 previewArticle.addEventListener('click', (event) => {
     event.preventDefault();
     article.content = document.getElementById('editor').innerHTML;
-    article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
+    // article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
     article.title = document.getElementById('title').value;
     const formData = new FormData(form);
+    console.log('Метод зароботал')
+
     fetch('/uploadImage', {
         method: 'POST',
         body: formData,
     })
         .then(response => response.text())
         .then(data => {
-            article.preview = data;
-
+          article.preview = data
             fetch('/previewArticle', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(article),
+                body: JSON.stringify(article)
             })
+                .then(response => {
+                    if (response.ok){
+                        location.href = '/previewArticle';
+                    }
+                    else {
+                        location.href = '/login';
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка при отправке запроса', error);
+                });
+          // localStorage.setItem('content',article.content);
+          // localStorage.setItem('title',article.title);
+          // localStorage.setItem('preview',article.preview);
+          // localStorage.setItem('publishDate',article.publishDate);
+          // const params = new URLSearchParams(article)
+          // location.href = '/previewArticle';
         })
         .catch(error => console.error('Ошибка при загрузке изображения', error));
 });
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     article.content = document.getElementById('editor').innerHTML;
-    article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
+    // article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
     article.title = document.getElementById('title').value;
     const formData = new FormData(form);
     fetch('/uploadImage', {

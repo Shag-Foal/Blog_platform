@@ -46,8 +46,13 @@ public class Main {
     }
 
     @GetMapping("/createArticle")
-    public String createArticle(HttpSession session){
+    public String createArticle(HttpSession session,Model model){
         if (session.getAttribute("user") != null){
+            Article article = (Article) session.getAttribute("previewArticle");
+            if (article == null) {
+                article = new Article();
+            }
+            model.addAttribute("article",article);
             return "Article/createArticle";
         }else return "redirect:";
     }

@@ -15,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Controller
 public class ArticleController {
@@ -29,7 +33,19 @@ public class ArticleController {
         this.userService = userService;
         this.commentService = commentService;
     }
-
+    @GetMapping("previewArticle")
+    public String previewArticle(HttpSession session, @RequestBody Article article,Model model){
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            article.setAuthor(userService.getUserByUsername(user.getUsername()));
+            article.setPublishDate(Timestamp.valueOf(LocalDateTime.now()));
+            article.setLikes(0L);
+            article.setDislikes(0L);
+            article.setViews(0L);
+            model.addAttribute("article",article);
+            return "Сохранено";
+        }else return "redirect:login";
+    }
     @GetMapping("/{id}")
     public String article(@PathVariable("id") Long id, HttpSession session, Model model) {
         User user1 = (User) session.getAttribute("user");
@@ -38,6 +54,9 @@ public class ArticleController {
             Article article = articleService.getById(id);
             ArticleRatings articleRatings = articleRatingsService.getArticleRatings_ByArticleIdAndUserId(article.getId(),user.getId());
             if (article != null) {
+                if (articleRatings == null){
+                    articleRatings = new ArticleRatings();
+                }
                 article.setViews(article.getViews() + 1);
                 articleService.save(article);
                 model.addAttribute("article", article);

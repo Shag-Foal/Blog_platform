@@ -59,7 +59,32 @@ let article = {
     preview:'',
     title:''
 }
+const previewArticle = document.getElementById('previewArticle');
 
+previewArticle.addEventListener('click', (event) => {
+    event.preventDefault();
+    article.content = document.getElementById('editor').innerHTML;
+    article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
+    article.title = document.getElementById('title').value;
+    const formData = new FormData(form);
+    fetch('/uploadImage', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.text())
+        .then(data => {
+            article.preview = data;
+
+            fetch('/previewArticle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(article),
+            })
+        })
+        .catch(error => console.error('Ошибка при загрузке изображения', error));
+});
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     article.content = document.getElementById('editor').innerHTML;

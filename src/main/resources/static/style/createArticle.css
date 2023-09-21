@@ -208,3 +208,20 @@ body {
     resize: none;
     overflow-y: auto; 
 }
+/* Стили для кнопки предпросмотра */
+.preview-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none; /* Убираем подчеркивание у ссылки */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.preview-button:hover {
+  background-color: #258cd1;
+  color: white;
+}

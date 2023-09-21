@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -54,6 +55,7 @@ public class UserService {
     }
 
     public User getById(Long id){
-        return userRepo.findById(id).get();
+        Optional<User> user = userRepo.findById(id);
+        return user.orElse(null);
     }
 }

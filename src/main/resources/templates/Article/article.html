@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/style/article.css">
+    <link rel="stylesheet" href="../../static/style/article.css">
     <title th:text="${article.title}">Article</title>
 </head>
 <body>
@@ -57,7 +57,7 @@
                     <div class="actions">
                        <!--<span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>  -->
                         <div style="display: none;" th:text="${comment.getId()}"></div>
-                        <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'"class="span">Поддерживаю</span>
+                        <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'" class="span">Поддерживаю</span>
                         <span id="commentLikes" th:text="${comment.getLikes()}">100</span>
                     </div>
                 </div>

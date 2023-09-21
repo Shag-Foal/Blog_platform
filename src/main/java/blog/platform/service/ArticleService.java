@@ -26,8 +26,22 @@ public class ArticleService {
         return articleRepo.findAllByOrderByPublishDateDesc();
     }
 
+    public List<Article> getArticleListSortedByLikes(){
+        return articleRepo.findAllByOrderByLikesDesc();
+    }
+    public List<Article> getArticleListSortedByDislikes(){
+        return articleRepo.findAllByOrderByDislikesDesc();
+    }
+    public List<Article> getArticleListSortedByViews(){
+        return articleRepo.findAllByOrderByViewsDesc();
+    }
+
     public List<Article> getArticleListByUser(User user){
         return articleRepo.findAllByAuthorOrderByPublishDateDesc(user);
+    }
+
+    public List<Article> getArticleListByTitle(String name){
+        return articleRepo.findAllByTitle(name);
     }
 
 }

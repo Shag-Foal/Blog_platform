@@ -12,4 +12,9 @@ public interface ArticleRepo extends JpaRepository<Article,Long> {
     List<Article> findAllByAuthorOrderByPublishDateDesc(User user);
 
     List<Article> findAllByOrderByPublishDateDesc();
+    List<Article> findAllByOrderByLikesDesc();
+    List<Article> findAllByOrderByDislikesDesc();
+    List<Article> findAllByOrderByViewsDesc();
+
+    List<Article> findAllByTitle(String titleName);
 }

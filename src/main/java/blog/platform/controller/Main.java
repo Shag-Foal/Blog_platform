@@ -9,6 +9,7 @@ import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -49,12 +50,25 @@ public class Main {
     public String createArticle(HttpSession session,Model model){
         if (session.getAttribute("user") != null){
             Article article = (Article) session.getAttribute("previewArticle");
+            session.removeAttribute("previewArticle");
             if (article == null) {
                 article = new Article();
             }
             model.addAttribute("article",article);
             return "Article/createArticle";
         }else return "redirect:";
+    }
+    @GetMapping("/editArticle/{id}")
+    public String editArticle(HttpSession session, Model model, @PathVariable("id") Long id){
+        if (session.getAttribute("user") != null){
+            Article article = (Article) session.getAttribute("previewArticle");
+            session.removeAttribute("previewArticle");
+            if (article == null) {
+                article = articleService.getById(id);
+            }
+            model.addAttribute("article",article);
+            return "Article/editArticle";
+        }else return "redirect:/login";
     }
 
     @GetMapping("/profile")

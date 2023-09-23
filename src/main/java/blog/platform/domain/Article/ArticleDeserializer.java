@@ -1,6 +1,7 @@
 package blog.platform.domain.Article;
 
 import blog.platform.domain.Hashtag;
+import blog.platform.domain.User;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -21,6 +22,14 @@ public class ArticleDeserializer extends JsonDeserializer<Article> {
         article.setTitle(node.get("title").asText());
         article.setContent(node.get("content").asText());
         article.setPreview(node.get("preview").asText());
+        if (node.get("username") != null){
+            User user = new User();
+            user.setUsername(node.get("username").asText());
+            article.setAuthor(user);
+        }
+        if (node.get("id") != null) {
+            article.setId(node.get("id").asLong());
+        }
 //        List<ArticleHashtag> articleHashtags = new ArrayList<>();
 //        ArrayNode hashtagsNode = (ArrayNode) node.get("hashtags");
 //        if (hashtagsNode != null) {

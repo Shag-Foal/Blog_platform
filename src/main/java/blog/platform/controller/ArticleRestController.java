@@ -39,6 +39,20 @@ public class ArticleRestController {
             return ResponseEntity.ok("Сохранено");
         }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
     }
+    @PostMapping("/editArticle")
+    @ResponseBody
+    public ResponseEntity<String> editArticle(@RequestBody Article article,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            article.setAuthor(userService.getUserByUsername(article.getAuthor().getUsername()));
+            article.setLikes(articleService.getById(article.getId()).getLikes());
+            article.setDislikes(articleService.getById(article.getId()).getDislikes());
+            article.setViews(articleService.getById(article.getId()).getViews());
+            article.setPublishDate(articleService.getById(article.getId()).getPublishDate());
+            articleService.save(article);
+            return ResponseEntity.ok("Изменено");
+        }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
+    }
 
     @PostMapping("/uploadImage")
     @ResponseBody

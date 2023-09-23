@@ -77,6 +77,7 @@ public class ArticleController {
                 model.addAttribute("articleRatings",articleRatings);
                 model.addAttribute("like",ActionType.like);
                 model.addAttribute("dislike",ActionType.dislike);
+                model.addAttribute("user", user.getUsername());
                 return "Article/article";
             }
         }

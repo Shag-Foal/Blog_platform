@@ -11,13 +11,14 @@
     <h1>Добро пожаловать!</h1>
 </header>
 <nav class="navbar">
-    <div class="wrapper"><form th:action="@{/search}" method="get" class="search-form">
-        <input type="text" name="searchQuery" placeholder="Поиск...">
+    <div class="wrapper">
+        <form th:action="@{/search}" method="get" class="search-form">
+        <input type="text" name="searchQuery" placeholder="Поиск..." th:value="${search}">
         <button type="submit">Поиск</button>
     </form>
     <div class="sorting-dropdown">
         <span>Сортировать по</span>
-        <button class="sorting-button" id="sorting-button">дате</button>
+        <button class="sorting-button" id="sorting-button" th:text="${sorted}">дате</button>
         <div class="sorting-menu" id="sorting-menu">
             <a href="#" data-sort="likes"> лайкам</a>
             <a href="#" data-sort="dislikes"> дизлайкам</a>
@@ -58,29 +59,6 @@
 <div th:if="${articles.size() == 0}" style="text-align: center;">
     <p>Нет доступных артиклов.</p>
 </div>
-<script>
-document.getElementById("sorting-button").addEventListener("click", function() {
-    var sortingMenu = document.getElementById("sorting-menu");
-    if (sortingMenu.style.display === "block") {
-        sortingMenu.style.display = "none";
-    } else {
-        sortingMenu.style.display = "block";
-    }
-});
-
-var sortingLinks = document.querySelectorAll(".sorting-menu a");
-sortingLinks.forEach(function(link) {
-    link.addEventListener("click", function(event) {
-        event.preventDefault();
-        var selectedSort = link.getAttribute("data-sort");
-        var selectedSortText = link.textContent; 
-        document.getElementById("sorting-button").textContent =selectedSortText; 
-        console.log("Выбрана сортировка: " + selectedSort);
-        document.getElementById("sorting-menu").style.display = "none";
-    });
-});
-
-
-</script>
+<script src="/js/main.js"></script>
 </body>
 </html>

@@ -26,7 +26,7 @@
 <div class="article-card">
     <img class="article-avatar" th:src="${article.getPreview()}" alt="Article preview">
     <div class="article-info">
-        <h2 class="article-name" id="articleTitle">Название поста</h2>
+        <h2 class="article-name" id="articleTitle" th:text="${article.getTitle()}">Название поста</h2>
         <div class="article-description">
             <p class="article-views">
                 <span>0</span> просмотров
@@ -45,8 +45,13 @@
 <div class="divBtn"><button class="submitBtn" type="submit" id="returnButton">Вернуться</button></div>
 <script>
     const returnButton = document.getElementById('returnButton');
-
     returnButton.addEventListener('click', () => {
+        const id = localStorage.getItem('id')
+        if (id != null){
+            localStorage.removeItem('id')
+            window.location.href = '/editArticle/ ' + id;
+            return
+        }
         window.location.href = '/createArticle';
     });
 </script></body>

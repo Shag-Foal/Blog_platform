@@ -35,10 +35,14 @@ const dfreeBodyConfig = {
 
 tinymce.init(dfreeHeaderConfig);
 tinymce.init(dfreeBodyConfig);
+const changePreviewButton = document.querySelector('.file-input-button');
 const imageInput = document.getElementById('images');
-const imagePreviewContainer = document.getElementById('image-preview-container');
 
-imageInput.addEventListener('change', function () {
+changePreviewButton.addEventListener('click', function () {
+    imageInput.click();
+});
+const imagePreviewContainer = document.getElementById('image-preview-container');
+imageInput.addEventListener('change', () => {
     imagePreviewContainer.innerHTML = '';
     for (let i = 0; i < imageInput.files.length; i++) {
         const file = imageInput.files[i];
@@ -49,24 +53,29 @@ imageInput.addEventListener('change', function () {
             imagePreviewContainer.appendChild(img);
         }
     }
-});
 
+});
 const form = document.getElementById('form')
 let article = {
     content:'',
     publishDate: '',
     preview:'',
-    title:''
+    title:'',
+    username:'',
+    id:''
 }
 const previewArticle = document.getElementById('previewArticle');
 
 previewArticle.addEventListener('click', (event) => {
     event.preventDefault();
     article.content = document.getElementById('editor').innerHTML;
+    article.username = document.getElementById('author').value;
+    article.publishDate = document.getElementById('publishDate');
     // article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
     article.title = document.getElementById('title').value;
     const formData = new FormData(form);
     console.log('Метод зароботал')
+    article.id = document.getElementById('id').value;
     if (document.getElementById('preview-image') == null) {
         fetch('/uploadImage', {
             method: 'POST',
@@ -74,7 +83,8 @@ previewArticle.addEventListener('click', (event) => {
         })
             .then(response => response.text())
             .then(data => {
-                article.preview = data
+                article.preview = data;
+
                 fetch('/previewArticle', {
                     method: 'POST',
                     headers: {
@@ -84,6 +94,7 @@ previewArticle.addEventListener('click', (event) => {
                 })
                     .then(response => {
                         if (response.ok) {
+                            localStorage.setItem('id', article.id)
                             location.href = '/previewArticle';
                         } else {
                             location.href = '/login';
@@ -96,7 +107,9 @@ previewArticle.addEventListener('click', (event) => {
             .catch(error => console.error('Ошибка при загрузке изображения', error));
     }
     else {
-        article.preview = document.getElementById('preview-image').src
+        article.preview = document.getElementById('preview-image')
+        article.preview = article.preview.src
+        localStorage.setItem('article', '1')
         fetch('/previewArticle', {
             method: 'POST',
             headers: {
@@ -106,6 +119,7 @@ previewArticle.addEventListener('click', (event) => {
         })
             .then(response => {
                 if (response.ok) {
+                    localStorage.setItem('id', article.id)
                     location.href = '/previewArticle';
                 } else {
                     location.href = '/login';
@@ -114,52 +128,29 @@ previewArticle.addEventListener('click', (event) => {
             .catch(error => {
                 console.error('Ошибка при отправке запроса', error);
             });
+
     }
 });
-
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     article.content = document.getElementById('editor').innerHTML;
+    article.username = document.getElementById('author').value;
+    article.publishDate = document.getElementById('publishDate').value;
     // article.hashtags = document.getElementById('hashtags').value.split(/[ ,]+/).filter(part => part.trim() !== '');
     article.title = document.getElementById('title').value;
+    article.id = document.getElementById('id').value;
     const formData = new FormData(form);
-    if (article.content.trim() === '<p><br data-mce-bogus="1"></p>') {
-        alert('Поле "Content" не может содержать только пустые теги.');
-        return;
-    }
-    const a = document.querySelector('.preview-image')
-    if (a != null) {
-        if (document.getElementById('preview-image') == null) {
-            fetch('/uploadImage', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => response.text())
-                .then(data => {
-                    article.preview = data;
+    console.log(JSON.stringify(article))
+    if (document.getElementById('preview-image') == null) {
+    fetch('/uploadImage', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.text())
+        .then(data => {
+            article.preview = data;
 
-                    fetch('/newArticle', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(article),
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                window.location.href = 'http://localhost:8080';
-                            } else {
-                                console.log('Ошибка при отправке');
-                            }
-                        })
-                        .catch(e => console.log('Ошибка' + e));
-                })
-                .catch(error => console.error('Ошибка при загрузке изображения', error));
-        } else {
-            const fullImageUrl = document.getElementById('preview-image').src;
-            const domain = window.location.protocol + '//' + window.location.host; // Получаем домен и протокол текущей страницы
-            article.preview = fullImageUrl.replace(domain, '');
-            fetch('/newArticle', {
+            fetch('/editArticle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -174,10 +165,27 @@ form.addEventListener('submit', (event) => {
                     }
                 })
                 .catch(e => console.log('Ошибка' + e));
-        }
+        })
+        .catch(error => console.error('Ошибка при загрузке изображения', error));
     }
     else {
-            alert('Добавьте превью для статьи.');
-
-        }
+        const fullImageUrl = document.getElementById('preview-image').src;
+        const domain = window.location.protocol + '//' + window.location.host; // Получаем домен и протокол текущей страницы
+        article.preview = fullImageUrl.replace(domain, '');
+        fetch('/editArticle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(article),
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = 'http://localhost:8080';
+                } else {
+                    console.log('Ошибка при отправке');
+                }
+            })
+            .catch(e => console.log('Ошибка' + e));
+    }
 });

@@ -17,4 +17,5 @@ public interface ArticleRepo extends JpaRepository<Article,Long> {
     List<Article> findAllByOrderByViewsDesc();
 
     List<Article> findAllByTitle(String titleName);
+
 }

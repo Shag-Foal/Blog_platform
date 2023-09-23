@@ -7,7 +7,7 @@
 </head>
 <body>
 <header>
-    <h1 class="HeaderTitle">Создание статьи</h1>
+    <h1 class="HeaderTitle">Редактирование статьи</h1>
 </header>
 <nav class="navBar">
     <ul class="unorderedList">
@@ -22,25 +22,30 @@
             <input type="text" id="title" name="title" required th:value="${article.getTitle()}">
         </div>
         <div class="file-input-wrapper">
-            <label class = "file-input-button" for="images">Загрузить превью</label>
-            <input type="file" id="images" name="image" accept="image/*" >
+            <label class = "file-input-button" for="images">Изменить превью</label>
+            <input type="file" id="images" name="image" accept="image/*">
         </div>
         <div id="image-preview-container">
-            <img th:if="${article != null}" id="preview-image" class="preview-image" th:src="${article.getPreview()}" />
+            <img th:if="${article != null}" id="preview-image" th:src="${article.getPreview()}" />
         </div>
         <div class='demo-dfree'>
-            <div th:utext="${article.content}" id="editor" class="dfree-body mce-content-body" contenteditable="true"  style="position: relative;" spellcheck="false"></div>
+            <div th:utext="${article.content}" id="editor" class="dfree-body mce-content-body" contenteditable="true" style="position: relative;" spellcheck="false"></div>
         </div>
         <!-- <div>
             <label for="hashtags">HashTags:</label>
             <textarea id="hashtags" name="hashtags" pattern="^#[a-zA-Z0-9]+(, #[a-zA-Z0-9]+)*$" required rows="4" cols="50"></textarea>
             <p class="error-message">Hashtags should start with #.</p>
         </div> -->
-        <button id="submitBtn" type="submit">Создать</button>
+        <button id="submitBtn" type="submit">Сохранить</button>
         <button id="previewArticle" class="preview-button">Предпросмотр</button>
     </form>
 </div>
+<div style="display: none">
+    <input id="publishDate" type="hidden" th:value="${article.getPublishDate}">
+    <input id="author" type="hidden" th:value="${article.getAuthor().getUsername()}">
+    <input id="id" type="hidden" th:value="${article.getId()}">
+</div>
 <script src="https://cdn.tiny.cloud/1/osdmodoeqc2h1witrr63oyijnowfmtj28c2h7vwmzr860nn3/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="/js/createArticle.js"></script>
+<script src="/js/editArticle.js"></script>
 </body>
 </html>

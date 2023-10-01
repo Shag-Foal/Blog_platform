@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой профиль</title>
+    <link rel="stylesheet" href="/style/profile.css">
+</head>
+<body>
+<header>
+    <h1><a href="/profile">Мой профиль</a></h1>
+</header>
+<nav class="navigation">
+    <ul class="nav-unorderedList">
+        <li class="nav-listItem"><a class="nav-link" href="/">Главная</a></li>
+        <li class="nav-listItem"><a class="nav-link" href="/profile/articles">Мои статьи</a></li>
+        <li class="nav-listItem"><a class="nav-link" href="/createArticle">Создать статью</a></li>
+    </ul>
+</nav>
+<main>
+    <section class="user-info">
+        <h2>Информация обо мне</h2>
+        <p><strong class="user-name">Имя:</strong><span th:text="${user.getUsername()}">Имя</span></p>
+        <p><strong class="user-surname">Фамилия:</strong><span th:text="${user.getSurname()}">Фамилия</span></p>
+        <p><strong class="user-password">Пароль:</strong><span>*********</span></p>
+        <p><strong class="user-email">Email:</strong> <span th:text="${user.getEmail()}">Email</span></p>
+        <button id="logout-button">Выйти из аккаунта</button>
+    </section>    
+</main>
+<footer>
+    <p>&copy; 2023 Мой профиль</p>
+</footer>
+<script>
+    const logoutButton = document.getElementById('logout-button');
+    logoutButton.addEventListener('click', function () {
+        fetch('/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    window.location.href = '/login';
+                } else {
+                    console.error('Ошибка при выходе из аккаунта');
+                }
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка:', error);
+            });
+    });
+</script>
+</body>
+</html>

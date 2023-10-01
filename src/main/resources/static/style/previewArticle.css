@@ -135,3 +135,17 @@ main {
     align-items: center;
     justify-content: center;
 }
+@media screen and (max-width: 900px) {
+    main {
+        width: 90%; 
+        padding: 10px;
+    }
+
+    .h2 {
+        font-size: 22px; 
+    }
+
+    .article {
+        padding: 15px; 
+    }
+}

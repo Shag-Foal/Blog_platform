@@ -2,44 +2,42 @@ body {
     margin: 0;
     padding: 0;
     resize: none;
-
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
 }
 .HeaderTitle {
-    text-align: center;
-    padding: 40px;
-    background-color: #3498db;
-    color: white;
-    margin: 0;
+  text-align: center;
+  padding: 2%;
+  background-color: #3498db;
+  color: white;
+  margin: 0;
 }
 
 .navBar {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 1%;
 }
 
 .unorderedList {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .listItem {
-    display: inline-block;
-    margin: 0 10px;
+  display: inline-block;
+  margin: 0 0.5%;
 }
 
 .link {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 18px;
-    text-decoration: none;
-    color: #3498db;
-    border: 1px solid #3498db;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1.3em;
+  text-decoration: none;
+  color: #3498db;
+  border: 0.01em solid #3498db;
+  border-radius: 6%;
+  transition: background-color 0.3s, color 0.3s;
 }
-
 .link:hover {
     background-color: #3498db;
     color: white;
@@ -208,7 +206,6 @@ body {
     resize: none;
     overflow-y: auto; 
 }
-/* Стили для кнопки предпросмотра */
 .preview-button {
   display: inline-block;
   padding: 10px 20px;
@@ -217,7 +214,7 @@ body {
   color: white;
   border: none;
   border-radius: 4px;
-  text-decoration: none; /* Убираем подчеркивание у ссылки */
+  text-decoration: none; 
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -227,4 +224,17 @@ body {
 }
 #previewArticle:hover {
     cursor: pointer;
+}
+@media screen and (max-width: 900px) {
+  .HeaderTitle {
+      font-size: 1.2em;
+  }
+
+  .link {
+      font-size: 1em;
+  }
+
+  .create-article-form {
+      padding: 10px;
+  }
 }

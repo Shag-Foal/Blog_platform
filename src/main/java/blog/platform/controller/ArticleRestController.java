@@ -7,12 +7,14 @@ import blog.platform.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import blog.platform.domain.Article.Article;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -25,6 +27,16 @@ public class ArticleRestController {
         this.articleService = articleService;
         this.userService = userService;
     }
+    @GetMapping("/hello")
+    public ResponseEntity<?> hello(){
+        return ResponseEntity.ok().body(new MyResponse("Hello from Spring"));
+    }
+    @GetMapping("/authenticated/hello")
+    public ResponseEntity<?> helloSecured(Principal principal){
+        if(principal == null) return ResponseEntity.ok().body(new MyResponse("Доступ воспрешен"));
+        return ResponseEntity.ok().body(new MyResponse("Доступ разрешен"));
+    }
+
     @PostMapping("/newArticle")
     @ResponseBody
     public ResponseEntity<String> newArticle(@RequestBody Article article,HttpSession session){
@@ -59,7 +71,7 @@ public class ArticleRestController {
     public String handleImageUpload(@RequestParam("image") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
-                String uploadDir = "C:\\Users\\baskh\\OneDrive\\Документы\\GitHub\\Blog_platform\\src\\main\\resources\\static\\uploads";
+                String uploadDir = "D:\\Projects\\GitHub\\Blog_Platform\\src\\main\\resources\\static\\uploads";
                 String fileName = file.getOriginalFilename();
                 String filePath = uploadDir + File.separator + fileName;
                 File dest = new File(filePath);
@@ -68,7 +80,7 @@ public class ArticleRestController {
                         .size(150, 120)
                         .toFile(dest);
 
-                return "/uploads/" + fileName;
+                return "../../static/uploads/" + fileName;
             } catch (IOException e) {
                 throw new RuntimeException("Ошибка при загрузке или обработке изображения.");
             }
@@ -88,5 +100,19 @@ public class ArticleRestController {
             articleService.save(article);
             return ResponseEntity.ok("Обновлено");
         }else return ResponseEntity.badRequest().body("Пользователь не авторизован");
+    }
+    class MyResponse{
+        String message;
+
+        public MyResponse() {
+        }
+
+        public MyResponse(String s) {
+            message = s;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 }

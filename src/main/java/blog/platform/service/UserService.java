@@ -1,8 +1,13 @@
 package blog.platform.service;
 
+import blog.platform.config.UserDetailsImpl;
 import blog.platform.domain.User;
+import blog.platform.dto.auth.SignInRequest;
+import blog.platform.dto.auth.SignUpRequest;
 import blog.platform.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -11,11 +16,22 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
-    @Autowired
     public UserService(UserRepo userRepo){
         this.userRepo = userRepo;
+    }
+
+    @Override
+    @Transactional
+    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
+        return new UserDetailsImpl(user.getId(),user.getUsername(),user.getEmail(),user.getSurname(),user.getPassword());
     }
 
     public static String hash(String input) {
@@ -35,8 +51,12 @@ public class UserService {
         }
     }
 
-    public void save(User user) {
-        user.setPassword(hash(user.getPassword()));
+    public void save(SignUpRequest sign) {
+        User user = new User();
+        user.setUsername(sign.getUsername());
+        user.setSurname(sign.getSurname());
+        user.setEmail(sign.getEmail());
+        user.setPassword(hash(sign.getPassword()));
         userRepo.save(user);
     }
 
@@ -58,4 +78,13 @@ public class UserService {
         Optional<User> user = userRepo.findById(id);
         return user.orElse(null);
     }
+
+    public boolean existByUsername(String username) {
+        return userRepo.existsByUsername(username);
+    }
+
+    public boolean existByEmail(String email) {
+        return userRepo.existsByEmail(email);
+    }
+
 }

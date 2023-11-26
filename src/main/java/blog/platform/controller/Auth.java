@@ -1,80 +1,56 @@
 package blog.platform.controller;
 
-import blog.platform.service.UserService;
+import blog.platform.config.JWT.JwtCore;
+import blog.platform.config.UserDetailsImpl;
 import blog.platform.domain.User;
+import blog.platform.dto.auth.SignInRequest;
+import blog.platform.dto.auth.SignUpRequest;
+import blog.platform.dto.responses.JwtResponse;
+import blog.platform.dto.responses.Message;
+import blog.platform.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+
+@RestController
+@AllArgsConstructor
+@CrossOrigin
 public class Auth {
-    private final UserService userService;
-    @Autowired
-    public Auth(UserService userService) {
-        this.userService = userService;
-    }
+    private  UserService userService;
+    private AuthenticationManager authenticationManager;
+    private JwtCore jwtCore;
 
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("user", new User());
-        return "auth/login";
-    }
 
-    @PostMapping("/login")
-    public String login(HttpSession session, @ModelAttribute("user") User user2) {
-        if (user2.getUsername().indexOf('@') == -1) {
-            User user1 = userService.getUserByUsername(user2.getUsername());
-            if (user1 != null && userService.equalPassword(user1, user2)) {
-                user2.setEmail(user1.getEmail());
-                session.setAttribute("user", user2);
-                return "redirect:";
-            } else return "redirect:login";
-        }else {
-            User user1 = userService.getUserByEmail(user2.getUsername());
-            if (user1!=null && userService.equalPassword(user1,user2)){
-                user2.setEmail(user1.getEmail());
-                user2.setUsername(user1.getUsername());
-                session.setAttribute("user",user2);
-                return "redirect:";
-            }
-            else return "redirect:login";
+    @PostMapping("/signin")
+    public ResponseEntity<?> signIn(@RequestBody SignInRequest sign) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(sign.getUsername(), sign.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.badRequest().body(new Message("Не правильный логин или пароль"));
         }
+        UserDetailsImpl userDetails = userService.loadUserByUsername(sign.getUsername());
+        String token = jwtCore.generateToken(userDetails);
+        return  ResponseEntity.ok(new JwtResponse(token));
     }
 
-
-    //------------------------------------------------------------------------------------------------------------------------//
-
-
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("user", new User());
-        return "auth/register";
-    }
-
-    @PostMapping("/register")
-    public String register(@ModelAttribute("user") User user, HttpSession session) {
-        User user1 = (User) session.getAttribute("user");
-        try{
-        if (user1 == null && userService.getUserByUsername(user.getUsername()) == null && userService.getUserByEmail(user.getEmail()) == null) {
-            session.setAttribute("user", user);
-            userService.save(user);
-            return "redirect:";
-        } else return "redirect:/register";
-        } catch (Exception e){
-            return "redirect:/register";
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody SignUpRequest sign) {
+        if (userService.existByUsername(sign.getUsername())) {
+            return ResponseEntity.badRequest().body("Пользователь уже существует");
         }
+        userService.save(sign);
+        UserDetailsImpl userDetails = userService.loadUserByUsername(sign.getUsername());
+        String token = jwtCore.generateToken(userDetails);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
-
-    //------------------------------------------------------------------------------------------------------------------------//
-
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:";
-    }
 }

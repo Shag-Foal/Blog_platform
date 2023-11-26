@@ -31,17 +31,24 @@
         <div class="class">
             <div id="likeDislike">
                 <button class="like-button" th:attr="onclick='handleLike(\'' + ${article.id} + '\')'">
-                    <img id="like-image" th:src="${articleRatings.actionType == like ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}" alt="Лайк">
+                    <img id="like-image"
+                         th:src="${articleRatings.actionType == like ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}"
+                         alt="Лайк">
                 </button>
                 <span id="likesCount" th:text="${article.getLikes()}">0</span>
                 <button class="dislike-button" th:attr="onclick='handleDislike(\'' + ${article.id} + '\')'">
-                    <img id="dislike-image" th:src="${articleRatings.actionType == dislike ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}" alt="Дизлайк">
+                    <img id="dislike-image"
+                         th:src="${articleRatings.actionType == dislike ? '/icons/likeInActive.png' : '/icons/likeInNoActive.png'}"
+                         alt="Дизлайк">
                 </button>
                 <span id="dislikesCount" th:text="${article.dislikes}">0</span>
-                <p>Дата публикации: <span id="publishDate" th:text="${#dates.format(article.publishDate, 'yyyy.MM.dd HH:mm')}">2023:08:30 14:30</span></p>
+                <p>Дата публикации: <span id="publishDate"
+                                          th:text="${#dates.format(article.publishDate, 'yyyy.MM.dd HH:mm')}">2023:08:30 14:30</span>
+                </p>
             </div>
             <div class="date">
-                <p>Автор:  <span th:text="${article.getAuthor().getSurname()}">Иван</span> <span th:text="${article.getAuthor().getUsername()}">Иванов</span></p>
+                <p>Автор: <span th:text="${article.getAuthor().getSurname()}">Иван</span> <span
+                        th:text="${article.getAuthor().getUsername()}">Иванов</span></p>
             </div>
         </div>
     </div>
@@ -49,27 +56,29 @@
         <form id="commentForm" class="comment-meta">
             <label for="comment">Комментарий:</label><br>
             <textarea class="comment-content" id="comment" name="comment" rows="4" cols="50" required></textarea><br>
-            <input  class="hover_button" type="submit" value="Отправить">
+            <input class="hover_button" type="submit" value="Отправить">
             <div id="articleId" style="display: none;" th:text="${article.getId()}"></div>
         </form>
-        <div id="comments" class="comments-section"  th:if="${comments.size() > 0}">
+        <div id="comments" class="comments-section" th:if="${comments.size() > 0}">
             <th:block th:each="comment : ${comments}">
                 <div class="comment">
                     <div class="info">
                         <span class="name"><span th:text="${comment.getUser().getUsername()}">Имя</span></span>
-                        <span class="date">Опубликовано: <span class="date_" th:text="${#dates.format(comment.getPostDate(), 'yyyy.MM.dd HH:mm')}">19.1.12</span></span>
+                        <span class="date">Опубликовано: <span class="date_"
+                                                               th:text="${#dates.format(comment.getPostDate(), 'yyyy.MM.dd HH:mm')}">19.1.12</span></span>
                     </div>
                     <div class="text" th:text="${comment.getContent()}">
                         Текст комментария
                     </div>
                     <div class="actions">
-                       <!--<span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>  -->
+                        <!--<span th:attr="data-comment-id=${comment.id}" class="span reply-button">Ответить</span>  -->
                         <div style="display: none;" th:text="${comment.getId()}"></div>
-                        <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'" class="span">Поддерживаю</span>
+                        <span th:attr="onclick='commentLike(event, \'' + ${comment.id} + '\')'"
+                              class="span">Поддерживаю</span>
                         <span id="commentLikes" th:text="${comment.getLikes()}">100</span>
                     </div>
                 </div>
-                <div  for="replyComment" class="replyComment" id="replyFormContainer"></div>
+                <div for="replyComment" class="replyComment" id="replyFormContainer"></div>
             </th:block>
         </div>
         <div th:if="${comments.size() == 0}" style="text-align: center;">

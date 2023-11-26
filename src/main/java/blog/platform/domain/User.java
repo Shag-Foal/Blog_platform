@@ -41,6 +41,10 @@ public class User {
 //    @ManyToMany(mappedBy = "users")
 //    private List<ArticleRatings> articleRatings;
 
+    public User(String username, String password){
+        this.password = password;
+        this.username = username;
+    }
     @Override
     public String toString() {
         return username + "\n" +

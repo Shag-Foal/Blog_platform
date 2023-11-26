@@ -34,6 +34,7 @@ public class ArticleController {
         this.userService = userService;
         this.commentService = commentService;
     }
+
     @PostMapping("previewArticle")
     public ResponseEntity<String> previewArticle(HttpSession session, @RequestBody Article article){
         User user = (User) session.getAttribute("user");
